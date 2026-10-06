@@ -24,7 +24,6 @@
             min-height: 100vh;
         }
 
-        /* SIDEBAR */
 
         .sidebar {
             width: 240px;
@@ -77,7 +76,6 @@
             color: #bfe0ce;
         }
 
-        /* MAIN */
 
         .main {
             margin-left: 240px;
@@ -119,7 +117,6 @@
             font-weight: bold;
         }
 
-        /* HERO */
 
         .hero {
             background: linear-gradient(120deg, #103d2b, #24704f);
@@ -140,7 +137,6 @@
             line-height: 1.6;
         }
 
-        /* CARD */
 
         .card {
             background: white;
@@ -156,7 +152,6 @@
             margin-bottom: 18px;
         }
 
-        /* FLOW */
 
         .flow {
             display: grid;
@@ -184,7 +179,6 @@
             margin-bottom: 6px;
         }
 
-        /* METRICS */
 
         .metrics {
             display: grid;
@@ -208,15 +202,12 @@
             margin-top: 6px;
         }
 
-        /* GRID */
-
         .grid {
             display: grid;
             grid-template-columns: 1.3fr 0.7fr;
             gap: 20px;
         }
 
-        /* FORM */
 
         .form {
             display: grid;
@@ -249,7 +240,6 @@
             grid-column: 1 / -1;
         }
 
-        /* BUTTON */
 
         .btn {
             border: none;
@@ -270,7 +260,6 @@
             color: #16764c;
         }
 
-        /* EXPERIMENT */
 
         .experiment-icon {
             text-align: center;
@@ -287,7 +276,6 @@
             font-size: 13px;
         }
 
-        /* TABLE */
 
         table {
             width: 100%;
@@ -314,7 +302,6 @@
             font-size: 11px;
         }
 
-        /* AI */
 
         .factor {
             margin-bottom: 18px;
@@ -380,7 +367,6 @@
             font-weight: bold;
         }
 
-        /* RESULT */
 
         .result {
             background: #eff9f3;
@@ -397,7 +383,6 @@
             border-left-color: #d79b29;
         }
 
-        /* TOAST */
 
         .toast {
             position: fixed;
@@ -410,7 +395,6 @@
             display: none;
         }
 
-        /* MOBILE */
 
         @media(max-width: 850px) {
 
@@ -476,7 +460,6 @@
 
 <div class="app">
 
-    <!-- SIDEBAR -->
 
     <aside class="sidebar">
 
@@ -518,12 +501,8 @@
     </aside>
 
 
-    <!-- MAIN -->
-
     <main class="main">
 
-
-        <!-- DASHBOARD -->
 
         <section id="dashboard" class="page active">
 
@@ -554,7 +533,6 @@
                     Website prototype mô phỏng quá trình thu thập
                     dữ liệu từ hệ thí nghiệm, phân tích bằng AI
                     và đánh giá hiệu quả xử lý rác thải.
-                    Dự án được nghiên cứu và trình bày trong khuôn khổ kì thi Khoa Học Kỹ Thuật.
 
                 </p>
 
@@ -644,8 +622,6 @@
         </section>
 
 
-
-        <!-- EXPERIMENT -->
 
         <section id="experiment" class="page">
 
@@ -829,8 +805,6 @@
 
 
 
-        <!-- DATA -->
-
         <section id="data" class="page">
 
             <div class="top">
@@ -890,8 +864,6 @@
         </section>
 
 
-
-        <!-- AI -->
 
         <section id="ai" class="page">
 
@@ -1070,8 +1042,6 @@
 
 
 
-        <!-- RESULT -->
-
         <section id="result" class="page">
 
             <div class="top">
@@ -1201,9 +1171,6 @@
 
 <script>
 
-    /* =========================
-       DATA
-    ========================= */
 
     let data = [
 
@@ -1226,9 +1193,6 @@
     ];
 
 
-    /* =========================
-       CHANGE PAGE
-    ========================= */
 
     function showPage(page, button) {
 
@@ -1261,11 +1225,6 @@
 
     }
 
-
-
-    /* =========================
-       RENDER DATA
-    ========================= */
 
     function renderData() {
 
@@ -1312,10 +1271,6 @@
 
 
 
-    /* =========================
-       SAVE EXPERIMENT
-    ========================= */
-
     function saveExperiment() {
 
         let temperature =
@@ -1345,11 +1300,6 @@
         let type =
             document.getElementById("wasteType").value;
 
-
-        /*
-            Đây chỉ là công thức mô phỏng
-            cho prototype.
-        */
 
         let efficiency =
             Math.min(
@@ -1414,11 +1364,6 @@
     }
 
 
-
-    /* =========================
-       AI
-    ========================= */
-
     function runAI() {
     let nhietDo = Number(document.getElementById("temperature").value);
 
@@ -1432,14 +1377,12 @@
         doTinCay = 87;
     }
 
-    // Đưa thanh về 0%
     let thanh = document.getElementById("confidenceBar");
     let so = document.getElementById("confidenceNumber");
 
     thanh.style.width = "0%";
     so.innerText = "0%";
 
-    // Cho thanh chạy từ 0 -> mức độ tin cậy
     let hienTai = 0;
 
     let chay = setInterval(function () {
@@ -1455,11 +1398,6 @@
 }
 
 
-
-
-    /* =========================
-       EXPORT CSV
-    ========================= */
 
     function exportCSV() {
 
@@ -1505,10 +1443,6 @@
 
 
 
-    /* =========================
-       TOAST
-    ========================= */
-
     function showToast(message) {
 
         let toast =
@@ -1532,11 +1466,6 @@
 
     }
 
-
-
-    /* =========================
-       START
-    ========================= */
 
     renderData();
 
