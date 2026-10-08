@@ -3,30 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WasteLab AI - Giám Sát Rác Thải & Môi Trường</title>
+    <title>WasteLab – Burn or Recycle? (Phiên bản Đặc tả 2.0)</title>
+    <!-- Font chữ & Style chuẩn -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
         }
 
         :root {
-            --wl-deep: #0b2f24;
-            --wl-green: #176b4d;
-            --wl-mint: #dff4e9;
-            --wl-bg: #f5f8f6;
+            --wl-deep: #07241b;
+            --wl-green: #0f4a35;
+            --wl-mint: #e2f4ea;
+            --wl-bg: #f4f7f5;
             --wl-card: #ffffff;
             --wl-text: #17342a;
-            --wl-muted: #71827a;
+            --wl-muted: #64756c;
             --wl-border: #e2ebe6;
-            --wl-shadow: 0 8px 30px rgba(14, 55, 40, .06);
+            --wl-shadow: 0 4px 20px rgba(7, 36, 27, 0.05);
             --wl-radius: 16px;
         }
 
         body {
-            background: linear-gradient(180deg, #f8fbf9 0%, #f3f7f5 100%);
+            background: #f4f7f5;
             color: var(--wl-text);
         }
 
@@ -37,27 +41,113 @@
 
         /* SIDEBAR */
         .sidebar {
-            width: 250px;
-            background: linear-gradient(180deg, #09291f 0%, #0d3b2b 100%);
+            width: 255px;
+            background: linear-gradient(180deg, #07241b 0%, #0d3b2b 100%);
             color: white;
-            padding: 24px 16px;
+            padding: 22px 16px;
             position: fixed;
             top: 0;
             bottom: 0;
-            border-right: 1px solid rgba(255,255,255,.06);
-            box-shadow: 8px 0 35px rgba(5, 35, 25, .12);
-            z-index: 10;
+            border-right: 1px solid rgba(255,255,255,.08);
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
         }
 
-        .logo {
-            font-size: 22px;
+        .brand {
+            margin-bottom: 20px;
+        }
+
+        .brand-logo {
+            font-size: 21px;
             font-weight: 800;
-            margin-bottom: 30px;
             letter-spacing: -0.5px;
         }
 
-        .logo span {
-            color: #55db97;
+        .brand-logo span { color: #52e19d; }
+
+        .brand-sub {
+            font-size: 11px;
+            color: #bfe0ce;
+            margin-top: 2px;
+            font-weight: 600;
+        }
+
+        .brand-author {
+            font-size: 10px;
+            color: #8bb39e;
+            margin-top: 4px;
+        }
+
+        /* DATA MODE TOGGLE */
+        .mode-box {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 18px;
+        }
+
+        .mode-box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #cfe8db;
+        }
+
+        .mode-badge {
+            font-size: 9.5px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 800;
+        }
+
+        .mode-badge.real { background: #16764c; color: white; }
+        .mode-badge.demo { background: #f59e0b; color: #1c1917; }
+
+        .mode-toggle {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px;
+            border-radius: 8px;
+        }
+
+        .mode-btn {
+            border: none;
+            background: transparent;
+            color: #a4c7b5;
+            padding: 5px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .mode-btn.active {
+            background: #176b4d;
+            color: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        /* MENU */
+        .menu {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .menu-title {
+            font-size: 10px;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #72a38c;
+            padding: 0 10px 8px;
         }
 
         .menu button {
@@ -66,53 +156,52 @@
             background: transparent;
             color: #cfe8db;
             text-align: left;
-            padding: 12px 14px;
+            padding: 10px 14px;
             border-radius: 10px;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             cursor: pointer;
-            font-size: 13.5px;
-            font-weight: 500;
-            transition: all 0.2s ease;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.15s ease;
         }
 
         .menu button:hover {
-            background: rgba(255,255,255,.08);
+            background: rgba(255,255,255,.07);
             color: white;
-            transform: translateX(3px);
+            transform: translateX(2px);
         }
 
         .menu button.active {
-            background: rgba(84, 190, 132, .22);
-            border-left: 3px solid #55db97;
+            background: rgba(82, 225, 157, 0.2);
             color: white;
+            border-left: 3px solid #52e19d;
             font-weight: 700;
         }
 
-        .side-info {
-            position: absolute;
-            bottom: 20px;
-            left: 16px;
-            right: 16px;
-            padding: 14px;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            font-size: 11.5px;
-            color: #bfe0ce;
-            line-height: 1.5;
+        .menu-badge {
+            font-size: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            background: #062319;
+            color: #52e19d;
+            padding: 2px 6px;
+            border-radius: 10px;
+            border: 1px solid rgba(82, 225, 157, 0.3);
         }
 
-        /* MAIN CONTENT */
+        /* MAIN CONTENT AREA */
         .main {
-            margin-left: 250px;
-            width: calc(100% - 250px);
-            padding: 30px 36px;
-            max-width: 1300px;
+            margin-left: 255px;
+            width: calc(100% - 255px);
+            padding: 28px 36px 60px;
+            max-width: 1250px;
         }
 
         .page {
             display: none;
-            animation: fadeIn .3s ease;
+            animation: fadeIn .25s ease;
         }
 
         .page.active {
@@ -120,345 +209,374 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
+            from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .top {
+        /* BANNER CẢNH BÁO MINH HỌA */
+        .demo-warning-banner {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            color: #92400e;
+            padding: 11px 16px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        /* HEADER */
+        .top-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(7, 36, 27, 0.08);
+        }
+
+        .top-header h1 {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--wl-deep);
+            letter-spacing: -0.4px;
+        }
+
+        .top-header p {
+            font-size: 13px;
+            color: var(--wl-muted);
+            margin-top: 3px;
+        }
+
+        .district-select {
+            background: white;
+            border: 1px solid var(--wl-border);
+            padding: 7px 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--wl-text);
+            outline: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+        }
+
+        /* HERO TRANG CHỦ */
+        .home-hero {
+            background: linear-gradient(115deg, #07241b 0%, #104230 60%, #1b6348 100%);
+            color: white;
+            padding: 30px 32px;
+            border-radius: var(--wl-radius);
+            margin-bottom: 24px;
+            box-shadow: 0 10px 25px rgba(7, 36, 27, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .home-hero h2 {
+            font-size: 23px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .home-hero p {
+            font-size: 13.5px;
+            color: #d6ede2;
+            max-width: 650px;
+            line-height: 1.55;
+            margin-bottom: 18px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 8px;
+            max-width: 620px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: none;
+            font-size: 13.5px;
+            outline: none;
+            background: white;
+            color: var(--wl-text);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+        }
+
+        .btn-search {
+            background: #52e19d;
+            color: #07241b;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 13.5px;
+            cursor: pointer;
+            transition: .2s;
+            white-space: nowrap;
+        }
+
+        .btn-search:hover { background: #40cf8c; }
+
+        /* 3 THẺ THỐNG KÊ CHUẨN */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--wl-border);
+            border-radius: var(--wl-radius);
+            padding: 18px;
+            box-shadow: var(--wl-shadow);
+        }
+
+        .stat-card small {
+            font-size: 12px;
+            color: var(--wl-muted);
+            font-weight: 600;
+            display: block;
+        }
+
+        .stat-card strong {
+            display: block;
+            font-size: 26px;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--wl-deep);
+            margin-top: 4px;
+        }
+
+        .stat-card p {
+            font-size: 11px;
+            color: var(--wl-muted);
+            margin-top: 4px;
+        }
+
+        /* 3 NÚT HÀNH ĐỘNG NHANH */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 26px;
+        }
+
+        .action-card {
+            background: white;
+            border: 1px solid var(--wl-border);
+            border-radius: 14px;
+            padding: 16px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.15s ease;
+        }
+
+        .action-card:hover {
+            border-color: #52e19d;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.04);
+        }
+
+        .action-card b {
+            display: block;
+            font-size: 14px;
+            color: var(--wl-deep);
+            margin-bottom: 4px;
+        }
+
+        .action-card span {
+            font-size: 12px;
+            color: var(--wl-muted);
+            line-height: 1.4;
+            display: block;
+        }
+
+        /* CARDS CHUNG */
+        .card {
+            background: white;
+            border: 1px solid var(--wl-border);
+            border-radius: var(--wl-radius);
+            padding: 22px;
+            box-shadow: var(--wl-shadow);
             margin-bottom: 22px;
         }
 
-        .top h1 {
-            font-size: 26px;
-            font-weight: 800;
-            color: var(--wl-deep);
-            letter-spacing: -0.5px;
-        }
-
-        .top p {
-            color: var(--wl-muted);
-            margin-top: 4px;
-            font-size: 13.5px;
-        }
-
-        .status {
-            background: #e3f5eb;
-            color: #16734b;
-            padding: 7px 14px;
-            border-radius: 20px;
-            font-size: 11.5px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            border: 1px solid #c9ebd8;
-        }
-
-        /* HERO BANNER */
-        .hero {
-            background: linear-gradient(115deg, #093324, #195d40);
-            color: white;
-            padding: 30px;
-            border-radius: var(--wl-radius);
-            margin-bottom: 24px;
-            box-shadow: 0 12px 30px rgba(10, 48, 34, 0.12);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero h2 {
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .hero p {
-            color: #d6ede1;
-            max-width: 760px;
-            line-height: 1.6;
-            font-size: 14px;
-        }
-
-        /* SECTION MÔI TRƯỜNG & HỆ THÍ NGHIỆM */
-        .section-header {
+        .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 28px 0 16px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #edf2ee;
         }
 
-        .section-header h2 {
-            font-size: 18px;
+        .card-header h2, .card-header h3 {
+            font-size: 16px;
             font-weight: 700;
             color: var(--wl-deep);
         }
 
-        .gallery-filter {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 16px;
-        }
-
-        .filter-btn {
-            border: 1px solid #d8e4dd;
-            background: white;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            cursor: pointer;
-            color: #4b6356;
-            transition: all 0.2s;
-        }
-
-        .filter-btn:hover, .filter-btn.active {
-            background: #103d2b;
-            color: white;
-            border-color: #103d2b;
-        }
-
+        /* GALLERY ẢNH MÔI TRƯỜNG */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
-            margin-bottom: 28px;
+            gap: 16px;
         }
 
         .gallery-card {
-            background: white;
-            border-radius: var(--wl-radius);
             border: 1px solid var(--wl-border);
+            border-radius: 14px;
             overflow: hidden;
-            box-shadow: var(--wl-shadow);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-            display: flex;
-            flex-direction: column;
+            background: white;
         }
 
-        .gallery-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(14, 55, 40, .12);
-        }
-
-        .gallery-card-img-wrap {
+        .gallery-card-img {
+            height: 180px;
+            background: #07241b;
             position: relative;
-            height: 230px;
-            background: #092017;
-            overflow: hidden;
         }
 
-        .gallery-card img {
+        .gallery-card-img img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.4s ease;
-        }
-
-        .gallery-card:hover img {
-            transform: scale(1.03);
+            display: block;
         }
 
         .gallery-badge {
             position: absolute;
             top: 10px;
             left: 10px;
-            background: rgba(0, 0, 0, 0.65);
-            backdrop-filter: blur(4px);
+            background: rgba(0,0,0,0.65);
             color: white;
-            padding: 4px 10px;
+            padding: 3px 8px;
             border-radius: 6px;
             font-size: 11px;
-            font-weight: 600;
+            font-weight: 700;
+            backdrop-filter: blur(4px);
         }
 
-        .gallery-card-caption {
-            padding: 16px 18px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+        .gallery-caption {
+            padding: 14px 16px;
         }
 
-        .gallery-card-caption strong {
+        .gallery-caption strong {
             display: block;
-            font-size: 15px;
-            color: #113426;
+            font-size: 14px;
+            color: var(--wl-deep);
+            margin-bottom: 4px;
+        }
+
+        .gallery-caption p {
+            font-size: 12px;
+            color: var(--wl-muted);
+            line-height: 1.5;
+        }
+
+        /* GRID VẬT LIỆU */
+        .material-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .material-card {
+            border: 1px solid var(--wl-border);
+            border-radius: 12px;
+            padding: 14px;
+            background: white;
+            cursor: pointer;
+            transition: all .15s;
+        }
+
+        .material-card:hover {
+            border-color: #176b4d;
+            background: #fbfdfc;
+            transform: translateY(-2px);
+        }
+
+        .material-card-tag {
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: #eef5f1;
+            color: #176b4d;
+            display: inline-block;
             margin-bottom: 6px;
         }
 
-        .gallery-card-caption p {
-            font-size: 13px;
-            color: #65756d;
-            line-height: 1.55;
-            margin-bottom: 12px;
-        }
-
-        .gallery-tags {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            font-size: 11px;
-            color: #176b4d;
-        }
-
-        .gallery-tags span {
-            background: #eef7f2;
-            padding: 2px 8px;
-            border-radius: 4px;
-        }
-
-        /* MODAL THÊM ẢNH */
-        .btn-add-img {
-            background: #176b4d;
-            color: white;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: .2s;
-        }
-
-        .btn-add-img:hover {
-            background: #0f4f37;
-        }
-
-        /* CARDS & METRICS */
-        .card {
-            background: white;
-            border: 1px solid var(--wl-border);
-            border-radius: var(--wl-radius);
-            padding: 22px;
-            margin-bottom: 22px;
-            box-shadow: var(--wl-shadow);
-        }
-
-        .card h2 {
-            font-size: 16.5px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: var(--wl-deep);
-        }
-
-        .flow {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .flow-item {
-            background: #f3f7f5;
-            padding: 14px 10px;
-            text-align: center;
-            border-radius: 10px;
-            font-size: 12px;
-            border: 1px solid #e5eee8;
-        }
-
-        .flow-item strong {
-            display: block;
-            font-size: 15px;
-            color: #176b4d;
-            margin-bottom: 4px;
-            font-family: monospace;
-        }
-
-        .metrics {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
-
-        .metric {
-            background: #f7faf8;
-            padding: 16px;
-            border-radius: 12px;
-            border: 1px solid #e6f0ea;
-        }
-
-        .metric small {
-            color: #718179;
-            font-size: 12px;
-        }
-
-        .metric strong {
-            display: block;
-            font-size: 26px;
-            margin-top: 5px;
-            color: #113829;
-            font-family: monospace;
-        }
-
-        /* FORMS & TABLES */
-        .grid {
-            display: grid;
-            grid-template-columns: 1.3fr 0.7fr;
-            gap: 20px;
-        }
-
-        .form {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
-
-        .field label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: #4b6156;
-            margin-bottom: 5px;
-        }
-
-        .field input, .field select {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #dbe5df;
-            border-radius: 8px;
-            outline: none;
+        .material-card h4 {
             font-size: 13.5px;
-            background: #fcfdfc;
+            font-weight: 700;
+            color: var(--wl-deep);
+            margin-bottom: 3px;
         }
 
-        .field input:focus, .field select:focus {
-            border-color: #218052;
-            box-shadow: 0 0 0 3px rgba(33, 128, 82, 0.1);
+        .material-card p {
+            font-size: 11.5px;
+            color: var(--wl-muted);
+            line-height: 1.4;
         }
 
-        .full { grid-column: 1 / -1; }
+        /* THẺ KẾT QUẢ 5 KHỐI */
+        .result-box {
+            border: 1px solid var(--wl-border);
+            border-radius: 14px;
+            padding: 20px;
+            background: white;
+        }
 
+        .result-group-banner {
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin-bottom: 14px;
+        }
+
+        .result-group-banner.recycle { background: #e8f7ee; border: 1px solid #c2ebd0; color: #105936; }
+        .result-group-banner.special { background: #fef3c7; border: 1px solid #fde68a; color: #92400e; }
+        .result-group-banner.residual { background: #f3f4f6; border: 1px solid #e5e7eb; color: #374151; }
+
+        .result-group-banner strong {
+            font-size: 18px;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* NÚT BẤM */
         .btn {
             border: none;
-            background: #16764c;
-            color: white;
-            padding: 12px 18px;
-            border-radius: 8px;
+            padding: 10px 16px;
+            border-radius: 10px;
             font-weight: 700;
+            font-size: 12.5px;
             cursor: pointer;
-            font-size: 13px;
-            transition: .2s;
+            transition: .15s;
         }
 
-        .btn:hover { background: #105f3c; }
+        .btn-primary { background: #176b4d; color: white; }
+        .btn-primary:hover { background: #0f4f37; }
+        .btn-outline { background: #f0f5f2; color: #176b4d; border: 1px solid #c8ded3; }
+        .btn-outline:hover { background: #e2ece6; }
 
-        .btn.secondary {
-            background: #e9f4ee;
-            color: #16764c;
-            border: 1px solid #cce5d7;
-        }
-
+        /* BẢNG DỮ LIỆU & NHẬT KÝ */
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13px;
+            font-size: 12.5px;
         }
 
         th, td {
             text-align: left;
-            padding: 11px 12px;
+            padding: 10px 12px;
             border-bottom: 1px solid #edf1ee;
         }
 
@@ -466,689 +584,707 @@
             background: #f4f8f5;
             color: #51635a;
             font-weight: 700;
-            font-size: 12px;
+            font-size: 11.5px;
         }
-
-        .pill {
-            background: #e2f5eb;
-            color: #167247;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 700;
-            font-family: monospace;
-        }
-
-        /* BURN OR RECYCLE */
-        .bor-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 18px;
-        }
-
-        .bor-form {
-            background: #f7faf8;
-            border-radius: 12px;
-            padding: 18px;
-            border: 1px solid #e5eee8;
-        }
-
-        .bor-form label {
-            display: block;
-            font-size: 12.5px;
-            font-weight: 700;
-            margin: 12px 0 5px;
-            color: #18352a;
-        }
-
-        .bor-form select, .bor-form input {
-            width: 100%;
-            border: 1px solid #d8e3dd;
-            border-radius: 8px;
-            padding: 9px 11px;
-            background: white;
-            font-size: 13px;
-        }
-
-        .bor-button {
-            width: 100%;
-            border: none;
-            border-radius: 8px;
-            padding: 12px;
-            margin-top: 15px;
-            background: #103d2b;
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .bor-result {
-            border: 1px solid #e2ebe5;
-            border-radius: 12px;
-            padding: 18px;
-            background: white;
-        }
-
-        .bor-decision {
-            border-radius: 10px;
-            padding: 14px;
-            background: #eef7f1;
-            margin-bottom: 14px;
-        }
-
-        .bor-decision strong {
-            display: block;
-            font-size: 22px;
-            margin-top: 4px;
-            color: #17623e;
-        }
-
-        .bor-metrics {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-top: 15px;
-        }
-
-        .bor-metric {
-            background: #f7faf8;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            border: 1px solid #e9f0eb;
-        }
-
-        .bor-metric small { font-size: 11px; color: #718179; display: block; }
-        .bor-metric strong { font-size: 16px; font-family: monospace; }
 
         /* TOAST */
         .toast {
             position: fixed;
             bottom: 25px;
             right: 25px;
-            background: #103d2b;
+            background: #07241b;
             color: white;
             padding: 12px 20px;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 13px;
+            font-weight: 600;
             display: none;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
             z-index: 100;
         }
 
-        @media(max-width: 850px) {
-            .sidebar { width: 70px; padding: 20px 8px; }
-            .logo { font-size: 0; }
-            .logo span { font-size: 20px; }
-            .menu button { font-size: 0; text-align: center; }
+        @media (max-width: 850px) {
+            .sidebar { width: 70px; padding: 16px 8px; }
+            .brand-logo, .brand-sub, .brand-author, .menu-title, .mode-box, .menu button span { display: none; }
+            .menu button { justify-content: center; padding: 10px; }
             .main { margin-left: 70px; width: calc(100% - 70px); padding: 18px; }
-            .gallery-grid, .grid, .bor-grid, .flow, .metrics { grid-template-columns: 1fr; }
+            .stats-grid, .quick-actions, .gallery-grid, .material-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
-
 <body>
 
 <div class="app">
-
     <!-- SIDEBAR -->
     <aside class="sidebar">
-        <div class="logo">Waste<span>Lab</span> AI</div>
-        <div class="menu">
-            <button class="active" onclick="showPage('dashboard', this)">◉ &nbsp; Tổng quan</button>
-            <button onclick="showPage('experiment', this)">⚗ &nbsp; Hệ thí nghiệm</button>
-            <button onclick="showPage('data', this)">▦ &nbsp; Dữ liệu đo lường</button>
-            <button onclick="showPage('ai', this)">✦ &nbsp; AI phân tích</button>
-            <button onclick="showPage('decision', this)">♻ &nbsp; Burn or Recycle?</button>
-            <button onclick="showPage('result', this)">✓ &nbsp; Đánh giá kết quả</button>
+        <div class="brand">
+            <div class="brand-logo">Waste<span>Lab</span></div>
+            <div class="brand-sub">Burn or Recycle? · v2.0</div>
+            <div class="brand-author">THPT Chuyên Chu Văn An</div>
         </div>
-        <div class="side-info">
-            Prototype nghiên cứu học sinh<br>
-            <b>Waste → Energy</b>
+
+        <!-- BẬT/TẮT CHẾ ĐỘ THẬT VS MINH HỌA -->
+        <div class="mode-box">
+            <div class="mode-box-header">
+                <span>Chế độ dữ liệu:</span>
+                <span id="modeBadge" class="mode-badge real">THẬT</span>
+            </div>
+            <div class="mode-toggle">
+                <button class="mode-btn active" id="btnModeReal" onclick="switchDataMode('real')">Thực tế</button>
+                <button class="mode-btn" id="btnModeDemo" onclick="switchDataMode('demo')">Minh họa</button>
+            </div>
         </div>
+
+        <nav class="menu">
+            <div class="menu-title">Điều hướng</div>
+            <button class="active" onclick="showPage('pageHome', this)">
+                <span>Trang chủ</span>
+            </button>
+            <button onclick="showPage('pageClassify', this)">
+                <span>Phân loại rác</span>
+            </button>
+            <button onclick="showPage('pageHubs', this)">
+                <span>Điểm thu gom</span>
+            </button>
+            <button onclick="showPage('pageBatches', this)">
+                <span>Nhật ký & Lô rác</span>
+                <span class="menu-badge" id="batchBadge">0</span>
+            </button>
+            <button onclick="showPage('pageEnergy', this)">
+                <span>Điện rác & Mô phỏng</span>
+            </button>
+            <button onclick="showPage('pageEducation', this)">
+                <span>Tìm hiểu & Seraphin</span>
+            </button>
+        </nav>
     </aside>
 
-    <!-- MAIN CONTENT -->
+    <!-- NỘI DUNG CHÍNH -->
     <main class="main">
+        <!-- CẢNH BÁO CHẾ ĐỘ MINH HỌA -->
+        <div id="demoWarning" class="demo-warning-banner" style="display: none;">
+            <span>⚠ Đang bật chế độ <b>Dữ liệu minh họa</b> – Không tính vào số liệu nhật ký thật của bạn.</span>
+            <button class="btn btn-outline" style="padding: 4px 10px; font-size: 11px;" onclick="switchDataMode('real')">Về dữ liệu thật</button>
+        </div>
 
-        <!-- =================== TRANG TỔNG QUAN =================== -->
-        <section id="dashboard" class="page active">
-            <div class="top">
+        <!-- =================== 1. TRANG CHỦ =================== -->
+        <section id="pageHome" class="page active">
+            <div class="top-header">
                 <div>
-                    <h1>WasteLab AI Dashboard</h1>
-                    <p>Hệ thống xử lý và phân tích dữ liệu rác thải nhiệt điện & bối cảnh môi trường</p>
+                    <h1>WasteLab – Burn or Recycle?</h1>
+                    <p>Phân loại đúng tại nguồn, kết nối điểm thu gom thực tế và đánh giá tác động năng lượng.</p>
                 </div>
-                <div class="status">● SYSTEM ONLINE</div>
+                <div>
+                    <select class="district-select" id="homeDistrictSelect">
+                        <option>Tây Hồ, Hà Nội</option>
+                        <option>Ba Đình, Hà Nội</option>
+                        <option>Cầu Giấy, Hà Nội</option>
+                        <option>Đống Đa, Hà Nội</option>
+                        <option>Hoàn Kiếm, Hà Nội</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="hero">
-                <h2>From Waste to Value</h2>
-                <p>Website prototype mô phỏng quá trình thu thập dữ liệu từ hệ thí nghiệm Seebeck vi mô, ứng dụng AI đánh giá tương quan thông số và định hướng bảo vệ môi trường, thúc đẩy mô hình kinh tế tuần hoàn.</p>
+            <!-- HERO TÌM KIẾM LỚN -->
+            <div class="home-hero">
+                <h2>Bạn muốn phân loại gì hôm nay?</h2>
+                <p>Tra cứu nhanh quy cách xử lý cho 28 loại vật liệu, cách làm sạch và tìm điểm thu gom đang tiếp nhận trong khu vực.</p>
+                <div class="search-form">
+                    <input type="text" id="quickSearchInput" class="search-input" placeholder="Nhập tên đồ vật: chai pet, bia carton, hop sua, pin con tho...">
+                    <button class="btn-search" onclick="handleQuickSearch()">Phân loại ngay →</button>
+                </div>
+            </div>
+
+            <!-- 3 THẺ THỐNG KÊ CÁ NHÂN (PAGE 3 ĐẶC TẢ) -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <small>ĐÃ BÀN GIAO (THỰC TẾ)</small>
+                    <strong id="statDelivered">0.0 kg</strong>
+                    <p>Tổng khối lượng từ các lần giao thành công</p>
+                </div>
+                <div class="stat-card">
+                    <small style="color: #176b4d;">ĐƯỢC NƠI NHẬN XÁC NHẬN</small>
+                    <strong style="color: #176b4d;" id="statVerified">0.0 kg</strong>
+                    <p>Có phiếu cân hoặc biên nhận đối soát</p>
+                </div>
+                <div class="stat-card">
+                    <small style="color: #b45309;">ĐANG CHỜ BÀN GIAO</small>
+                    <strong style="color: #b45309;" id="statPending">0.0 kg</strong>
+                    <p>Lưu trong lô của bạn, chưa giao</p>
+                </div>
+            </div>
+
+            <!-- 3 NÚT HÀNH ĐỘNG NHANH -->
+            <div class="quick-actions">
+                <div class="action-card" onclick="goToClassifyTab('')">
+                    <b>Phân loại ngay</b>
+                    <span>Tra cứu hướng xử lý cho 28 loại vật liệu</span>
+                </div>
+                <div class="action-card" onclick="showPage('pageHubs')">
+                    <b>Tìm điểm thu gom</b>
+                    <span>Xem điều kiện nhận, giá và cách liên hệ</span>
+                </div>
+                <div class="action-card" onclick="showPage('pageEnergy')">
+                    <b>Mô phỏng Điện rác</b>
+                    <span>Khám phá kịch bản 100 kg mẫu gốc (17.85 kWh)</span>
+                </div>
             </div>
 
             <!-- MỤC ẢNH MÔI TRƯỜNG & HỆ THÍ NGHIỆM -->
-            <div class="section-header">
-                <div>
-                    <h2>Hình Ảnh Môi Trường & Bối Cảnh Nghiên Cứu</h2>
-                    <p style="font-size: 13px; color: #718179; margin-top: 3px;">Tư liệu trực quan về hệ thí nghiệm thực tế và các động lực môi trường cấp bách</p>
-                </div>
-                <button class="btn-add-img" onclick="promptAddImage()">+ Thêm ảnh môi trường</button>
-            </div>
-
-            <div class="gallery-filter">
-                <button class="filter-btn active" onclick="filterGallery('all', this)">Tất cả ảnh</button>
-                <button class="filter-btn" onclick="filterGallery('apparatus', this)">Hệ thí nghiệm</button>
-                <button class="filter-btn" onclick="filterGallery('nature', this)">Thiên nhiên & Bền vững</button>
-                <button class="filter-btn" onclick="filterGallery('pollution', this)">Thực trạng ô nhiễm</button>
-                <button class="filter-btn" onclick="filterGallery('recycling', this)">Phân loại & Tuần hoàn</button>
-            </div>
-
-            <div class="gallery-grid" id="environmentGallery">
-                <!-- Danh sách ảnh môi trường sẽ được nạp động từ JavaScript bên dưới -->
-            </div>
-
-            <!-- QUY TRÌNH & THỐNG KÊ -->
             <div class="card">
-                <h2>Quy Trình Nghiên Cứu WasteLab</h2>
-                <div class="flow">
-                    <div class="flow-item"><strong>01</strong>Hệ thí nghiệm</div>
-                    <div class="flow-item"><strong>02</strong>Thu thập dữ liệu</div>
-                    <div class="flow-item"><strong>03</strong>Website số hóa</div>
-                    <div class="flow-item"><strong>04</strong>AI phân tích</div>
-                    <div class="flow-item"><strong>05</strong>Đánh giá & Ứng dụng</div>
+                <div class="card-header">
+                    <div>
+                        <h2>Hình Ảnh Môi Trường & Bối Cảnh Nghiên Cứu</h2>
+                        <p style="font-size: 12px; color: var(--wl-muted); margin-top: 2px;">Tư liệu trực quan về hệ thí nghiệm vi mô và các động lực môi trường cấp bách</p>
+                    </div>
                 </div>
 
-                <div class="metrics">
-                    <div class="metric">
-                        <small>Mẫu thí nghiệm đã ghi</small>
-                        <strong id="sampleCount">8</strong>
+                <div class="gallery-grid">
+                    <div class="gallery-card">
+                        <div class="gallery-card-img">
+                            <img src="https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=800&q=80" alt="Hệ thí nghiệm WasteLab">
+                            <div class="gallery-badge">Hệ thí nghiệm</div>
+                        </div>
+                        <div class="gallery-caption">
+                            <strong>Mô hình Seebeck vi mô WasteLab</strong>
+                            <p>Buồng nhiệt hóa có kiểm soát nhiệt độ tích hợp module nhiệt điện Seebeck để đo điện áp phát sinh.</p>
+                        </div>
                     </div>
-                    <div class="metric">
-                        <small>Hiệu suất trung bình</small>
-                        <strong id="averageEfficiency">78.7%</strong>
+
+                    <div class="gallery-card">
+                        <div class="gallery-card-img">
+                            <img src="https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=800&q=80" alt="Môi trường xanh">
+                            <div class="gallery-badge">Thiên nhiên & Bền vững</div>
+                        </div>
+                        <div class="gallery-caption">
+                            <strong>Mục tiêu phát triển bền vững (SDGs)</strong>
+                            <p>Giảm thiểu áp lực bãi chôn lấp lộ thiên, ngăn chặn khí methane và bảo vệ hệ sinh thái rừng tự nhiên.</p>
+                        </div>
                     </div>
-                    <div class="metric">
-                        <small>Nhiệt độ tối ưu ước tính</small>
-                        <strong id="optimalTemp">285°C</strong>
+
+                    <div class="gallery-card">
+                        <div class="gallery-card-img">
+                            <img src="https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?auto=format&fit=crop&w=800&q=80" alt="Ô nhiễm biển">
+                            <div class="gallery-badge">Thực trạng ô nhiễm</div>
+                        </div>
+                        <div class="gallery-caption">
+                            <strong>Báo động rác thải nhựa đại dương</strong>
+                            <p>Rác nhựa khó phân hủy gây suy thoái môi trường sống, thúc đẩy nghiên cứu giải pháp thu hồi tuần hoàn.</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-card">
+                        <div class="gallery-card-img">
+                            <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=800&q=80" alt="Kinh tế tuần hoàn">
+                            <div class="gallery-badge">Tuần hoàn & Phân loại</div>
+                        </div>
+                        <div class="gallery-caption">
+                            <strong>Phân loại rác tại nguồn đô thị</strong>
+                            <p>Tách riêng vật liệu có thể tái chế cơ học trước khi đưa các phần còn lại vào quy trình nhiệt điện.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- =================== TRANG HỆ THÍ NGHIỆM =================== -->
-        <section id="experiment" class="page">
-            <div class="top">
+        <!-- =================== 2. PHÂN LOẠI RÁC =================== -->
+        <section id="pageClassify" class="page">
+            <div class="top-header">
                 <div>
-                    <h1>Hệ Thí Nghiệm & Cảm Biến</h1>
-                    <p>Nhập thông số thực tế từ cảm biến nhiệt độ và đồng hồ đo điện áp</p>
+                    <h1>Phân Loại Rác Có Căn Cứ</h1>
+                    <p>Tra cứu 28 vật liệu, hướng xử lý và kiểm tra nơi tiếp nhận phù hợp.</p>
                 </div>
             </div>
 
-            <div class="grid">
-                <div class="card">
-                    <h2>Thông Số Thí Nghiệm</h2>
-                    <div class="form">
-                        <div class="field">
-                            <label>Nhiệt độ (°C)</label>
-                            <input id="temperature" type="number" value="280">
-                        </div>
-                        <div class="field">
-                            <label>Khối lượng rác (g)</label>
-                            <input id="mass" type="number" value="500">
-                        </div>
-                        <div class="field">
-                            <label>Điện áp Seebeck (V)</label>
-                            <input id="voltage" type="number" step="0.01" value="2.80">
-                        </div>
-                        <div class="field">
-                            <label>Dòng điện (A)</label>
-                            <input id="current" type="number" step="0.01" value="0.42">
-                        </div>
-                        <div class="field">
-                            <label>Thời gian (phút)</label>
-                            <input id="time" type="number" value="30">
-                        </div>
-                        <div class="field">
-                            <label>Loại rác thực nghiệm</label>
-                            <select id="wasteType">
-                                <option>Rác hữu cơ</option>
-                                <option>Nhựa</option>
-                                <option>Giấy</option>
-                                <option>Rác hỗn hợp</option>
-                            </select>
-                        </div>
-                        <button class="btn full" onclick="saveExperiment()">+ Lưu Mẫu Thí Nghiệm Vào Dữ Liệu</button>
-                    </div>
+            <!-- Thanh tìm kiếm & Lọc danh mục -->
+            <div class="card" style="padding: 16px; margin-bottom: 18px;">
+                <input type="text" id="classifySearchInput" class="search-input" style="border: 1px solid var(--wl-border); width: 100%; margin-bottom: 10px;" placeholder="Tìm: chai pet, carton, vo hop sua, pin, tui nilon..." oninput="renderMaterialGrid()">
+                <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px;" id="catPills">
+                    <!-- Nạp động qua JS -->
+                </div>
+            </div>
+
+            <!-- Vùng hiển thị form tình trạng khi đã chọn 1 vật liệu -->
+            <div id="materialDetailArea" style="display: none; margin-bottom: 22px;">
+                <!-- Nạp động qua JS -->
+            </div>
+
+            <!-- Danh mục lưới vật liệu -->
+            <div class="material-grid" id="materialGrid">
+                <!-- Nạp động qua JS -->
+            </div>
+        </section>
+
+        <!-- =================== 3. ĐIỂM THU GOM =================== -->
+        <section id="pageHubs" class="page">
+            <div class="top-header">
+                <div>
+                    <h1>Mạng Lưới Điểm Thu Gom Tiếp Nhận</h1>
+                    <p>Cơ sở thu gom có điều kiện tiếp nhận và căn cứ xác nhận minh bạch tại Hà Nội.</p>
+                </div>
+            </div>
+
+            <div class="gallery-grid" id="hubsList">
+                <!-- Nạp động qua JS -->
+            </div>
+        </section>
+
+        <!-- =================== 4. NHẬT KÝ & LÔ RÁC =================== -->
+        <section id="pageBatches" class="page">
+            <div class="top-header">
+                <div>
+                    <h1>Nhật Ký & Lô Vật Liệu</h1>
+                    <p>Quản lý từng lô rác, ghi nhận lần giao thực tế và xuất tệp CSV.</p>
+                </div>
+                <button class="btn btn-primary" onclick="exportCSV()">↓ Xuất CSV (UTF-8)</button>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Lô vật liệu đang lưu trữ</h3>
+                </div>
+                <div id="batchesContainer">
+                    <!-- Nạp động qua JS -->
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Nhật ký các lần bàn giao thực tế</h3>
+                </div>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mã sự kiện</th>
+                                <th>Lô & Điểm nhận</th>
+                                <th>Trình giao</th>
+                                <th style="color: #176b4d;">Được nhận</th>
+                                <th style="color: #b91c1c;">Từ chối</th>
+                                <th>Căn cứ xác nhận</th>
+                            </tr>
+                        </thead>
+                        <tbody id="handoversTableBody">
+                            <!-- Nạp động qua JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================== 5. ĐIỆN RÁC & MÔ PHỎNG =================== -->
+        <section id="pageEnergy" class="page">
+            <div class="top-header">
+                <div>
+                    <h1>Điện Rác: Kịch Bản & So Sánh Phương Án</h1>
+                    <p>Tính toán điện ròng $E_{\text{ròng}} = E_{\text{phát}} - E_{\text{tự dùng}}$ trên mẻ 100 kg kiểm tra kế thừa (Page 12).</p>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card" style="background: linear-gradient(135deg, #07241b, #134e38); color: white;">
+                    <small style="color: #52e19d;">ĐIỆN RÒNG ƯỚC TÍNH (MÔ PHỎNG)</small>
+                    <strong style="color: white; font-size: 32px;" id="energyNetKWh">17.85 kWh</strong>
+                    <p style="color: #d6ede2;">Mẻ 100 kg sau khi trừ 10% điện tự dùng lò</p>
+                </div>
+                <div class="stat-card">
+                    <small>MỐC ĐỐT HỖN HỢP LÝ THUYẾT</small>
+                    <strong style="color: #64748b;">37.75 kWh</strong>
+                    <p>Nếu đốt toàn bộ mẻ không phân loại (mất sạch vật liệu)</p>
+                </div>
+                <div class="stat-card">
+                    <small style="color: #176b4d;">VẬT LIỆU THU HỒI TUẦN HOÀN</small>
+                    <strong style="color: #176b4d;">32.0 kg tái chế</strong>
+                    <p>+ 24.5 kg rác hữu cơ làm phân bón sinh học</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Phân bổ dòng vật liệu mẻ 100 kg mẫu gốc:</h3>
+                    <span style="font-family: monospace; font-size: 12px; font-weight: 700;">Hệ số: η = 20%, Tự dùng = 10%</span>
+                </div>
+                <div style="font-size: 13px; line-height: 2;">
+                    <div>♻ <b>Thu hồi tái chế vật liệu:</b> 32.0 kg (gồm 80% nhựa, giấy, kim loại)</div>
+                    <div>🌿 <b>Thu hồi sinh học (Ủ hữu cơ):</b> 24.5 kg</div>
+                    <div>♨ <b>Tuyến thu hồi nhiệt điện (vào lò đốt):</b> 35.5 kg</div>
+                    <div>🧱 <b>Vô cơ trơ khác:</b> 3.0 kg</div>
+                    <div>⚠ <b>Pin & thu gom chuyên biệt:</b> 5.0 kg</div>
                 </div>
 
-                <div class="card" style="text-align: center;">
-                    <h2>Trạng Thái Cảm Biến</h2>
-                    <div style="font-size: 50px; padding: 25px 0;">♨️ ➔ ⚡</div>
-                    <div style="background: #eff8f3; padding: 12px; border-radius: 8px; color: #16764c; font-weight: bold; font-size: 13px;">
-                        ● Cảm biến đang sẵn sàng
-                    </div>
-                    <p style="margin-top: 15px; color: #718179; font-size: 12.5px; line-height: 1.5;">
-                        Điện áp sinh ra từ chênh lệch nhiệt độ bề mặt nóng và bộ tản nhiệt lạnh.
+                <div style="margin-top: 18px; padding: 14px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px; font-size: 12.5px; color: #92400e;">
+                    <b>Nhận xét chuyên môn KHKT: </b>
+                    Dù đốt hỗn hợp cho sản lượng điện danh nghĩa cao hơn (37.75 kWh vs 17.85 kWh), nhưng làm mất hoàn toàn 32 kg nhựa, giấy và làm tăng nguy cơ sinh khí độc do đốt lẫn pin. Phương án phân loại trước xử lý mang lại tổng giá trị tài nguyên bền vững cao hơn.
+                </div>
+            </div>
+        </section>
+
+        <!-- =================== 6. TÌM HIỂU & SERAPHIN =================== -->
+        <section id="pageEducation" class="page">
+            <div class="top-header">
+                <div>
+                    <h1>Tìm Hiểu Điện Rác & Tư Liệu Seraphin</h1>
+                    <p>Ghi chép khảo sát thực địa của học sinh THPT Chuyên Chu Văn An và luyện tập tình huống.</p>
+                </div>
+            </div>
+
+            <div class="card" style="background: linear-gradient(135deg, #093324, #175d41); color: white;">
+                <h3 style="color: white; font-size: 18px; margin-bottom: 6px;">Chuyên đề Khảo sát: Nhà máy Điện rác Seraphin (Hà Nội)</h3>
+                <p style="font-size: 13px; color: #d6ede2; line-height: 1.55;">
+                    Tư liệu khảo sát kỹ thuật thực địa. Chú thích: Nhà máy là đối tượng khảo sát kỹ thuật của học sinh, không phải đơn vị triển khai phần mềm WasteLab.
+                </p>
+            </div>
+
+            <div class="gallery-grid" style="margin-bottom: 22px;">
+                <div class="card" style="margin-bottom: 0;">
+                    <b style="font-size: 14px; color: var(--wl-deep); display: block; margin-bottom: 6px;">1. Thu hồi kim loại từ xỉ đáy sau đốt</b>
+                    <p style="font-size: 12.5px; color: var(--wl-muted); line-height: 1.5;">
+                        Sau khi rác cháy ở nhiệt độ trên 850°C, phần xỉ đáy còn lại (~15-20% khối lượng) được nam châm tách thu hồi sắt, nhôm. Điều này khẳng định: Tách vật liệu ngay từ đầu hiệu quả hơn nhiều.
+                    </p>
+                </div>
+
+                <div class="card" style="margin-bottom: 0;">
+                    <b style="font-size: 14px; color: var(--wl-deep); display: block; margin-bottom: 6px;">2. Kiểm soát tro bay (Fly Ash)</b>
+                    <p style="font-size: 12.5px; color: var(--wl-muted); line-height: 1.5;">
+                        Tro bay (~2-3% khối lượng) giữ lại tại bộ lọc túi vải có chứa dioxin và kim loại nặng. Phần này được hóa rắn bằng xi măng và chôn lấp chất thải nguy hại riêng.
+                    </p>
+                </div>
+
+                <div class="card" style="margin-bottom: 0;">
+                    <b style="font-size: 14px; color: var(--wl-deep); display: block; margin-bottom: 6px;">3. Khác biệt khối lượng rác tiếp nhận và nạp lò</b>
+                    <p style="font-size: 12.5px; color: var(--wl-muted); line-height: 1.5;">
+                        Rác tại bể chứa được ủ từ 3-7 ngày để ép chảy nước rỉ rác (nước rác chiếm 15-20% khối lượng). Lượng rác thực tế cấp vào phễu lò nhẹ hơn lượng rác cân lúc nhập trạm.
+                    </p>
+                </div>
+
+                <div class="card" style="margin-bottom: 0;">
+                    <b style="font-size: 14px; color: var(--wl-deep); display: block; margin-bottom: 6px;">4. Chuỗi công nghệ phát điện</b>
+                    <p style="font-size: 12.5px; color: var(--wl-muted); line-height: 1.5;">
+                        Lò ghi cơ học ➔ Nồi hơi thu nhiệt ➔ Tua-bin hơi nước (40 bar, 400°C) ➔ Máy phát điện đồng bộ nâng áp hòa lưới 110kV.
                     </p>
                 </div>
             </div>
         </section>
-
-        <!-- =================== TRANG DỮ LIỆU =================== -->
-        <section id="data" class="page">
-            <div class="top">
-                <div>
-                    <h1>Bảng Dữ Liệu Thí Nghiệm</h1>
-                    <p>Tổng hợp các mẫu đo lường phục vụ đối chiếu và lập báo cáo</p>
-                </div>
-                <button class="btn secondary" onclick="exportCSV()">↓ Xuất Tệp CSV</button>
-            </div>
-
-            <div class="card">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Mã ID</th>
-                            <th>Loại rác</th>
-                            <th>Nhiệt độ</th>
-                            <th>Khối lượng</th>
-                            <th>Điện áp (U)</th>
-                            <th>Dòng điện (I)</th>
-                            <th>Hiệu suất (η)</th>
-                        </tr>
-                    </thead>
-                    <tbody id="dataTable"></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- =================== TRANG AI PHÂN TÍCH =================== -->
-        <section id="ai" class="page">
-            <div class="top">
-                <div>
-                    <h1>AI Phân Tích & Tương Quan</h1>
-                    <p>Phân tích mức độ ảnh hưởng của các yếu tố đến hiệu suất phát điện</p>
-                </div>
-                <button class="btn" onclick="runAI()">✦ Chạy AI Phân Tích</button>
-            </div>
-
-            <div class="grid">
-                <div class="card">
-                    <h2>Mức Độ Ảnh Hưởng Đến Hiệu Suất</h2>
-                    <div style="margin-bottom: 14px;">
-                        <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px;">
-                            <span>Nhiệt độ buồng hóa nhiệt</span><b>88%</b>
-                        </div>
-                        <div style="height: 8px; background: #edf2ef; border-radius: 4px; overflow: hidden;">
-                            <div style="width: 88%; height: 100%; background: #2ea66c;"></div>
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 14px;">
-                        <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px;">
-                            <span>Khối lượng rác (g)</span><b>64%</b>
-                        </div>
-                        <div style="height: 8px; background: #edf2ef; border-radius: 4px; overflow: hidden;">
-                            <div style="width: 64%; height: 100%; background: #35b376;"></div>
-                        </div>
-                    </div>
-
-                    <div style="margin-bottom: 14px;">
-                        <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px;">
-                            <span>Thời gian xử lý</span><b>51%</b>
-                        </div>
-                        <div style="height: 8px; background: #edf2ef; border-radius: 4px; overflow: hidden;">
-                            <div style="width: 51%; height: 100%; background: #45c084;"></div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px;">
-                            <span>Loại rác đầu vào</span><b>43%</b>
-                        </div>
-                        <div style="height: 8px; background: #edf2ef; border-radius: 4px; overflow: hidden;">
-                            <div style="width: 43%; height: 100%; background: #56cf93;"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card" style="text-align: center;">
-                    <h2>Độ Tin Cậy Mô Hình</h2>
-                    <div style="font-size: 38px; font-weight: bold; font-family: monospace; color: #16764c; margin: 15px 0;" id="confidenceNumber">0%</div>
-                    <div style="height: 8px; background: #e5eee8; border-radius: 4px; overflow: hidden; margin-bottom: 15px;">
-                        <div id="confidenceBar" style="width: 0%; height: 100%; background: #22c55e; transition: width 0.05s;"></div>
-                    </div>
-                    <div style="background: #eff9f3; border-left: 4px solid #2da66b; padding: 12px; border-radius: 6px; font-size: 12.5px; text-align: left; line-height: 1.5;">
-                        AI nhận định: Khoảng 270°C – 300°C duy trì hiệu suất ổn định nhất. Rác hữu cơ có độ ẩm cao nên được sấy sơ bộ trước khi nạp vào buồng đốt.
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- =================== TRANG BURN OR RECYCLE =================== -->
-        <section id="decision" class="page">
-            <div class="top">
-                <div>
-                    <h1>Burn or Recycle? — Hỗ Trợ Quyết Định</h1>
-                    <p>Tối ưu giữa thu hồi vật liệu (Tái chế) và thu hồi năng lượng (Nhiệt điện)</p>
-                </div>
-                <div class="status">● DECISION SUPPORT</div>
-            </div>
-
-            <div class="card">
-                <div class="bor-grid">
-                    <div class="bor-form">
-                        <label>Loại rác</label>
-                        <select id="borType">
-                            <option value="paper">Giấy / Thùng carton</option>
-                            <option value="plastic">Nhựa phế phẩm</option>
-                            <option value="organic">Rác hữu cơ / Thực phẩm</option>
-                            <option value="textile">Vải / Dệt may</option>
-                            <option value="mixed">Rác sinh hoạt hỗn hợp</option>
-                        </select>
-
-                        <label>Khối lượng (kg)</label>
-                        <input id="borMass" type="number" value="10">
-
-                        <label>Độ ẩm ước tính (%)</label>
-                        <input id="borMoisture" type="number" value="20">
-
-                        <label>Khả năng thu hồi vật liệu (%)</label>
-                        <input id="borRecycle" type="number" value="75">
-
-                        <label>Mức độ lẫn tạp (%)</label>
-                        <input id="borContamination" type="number" value="15">
-
-                        <button class="bor-button" onclick="analyzeBurnOrRecycle()">Phân Tích Phương Án Tối Ưu</button>
-                    </div>
-
-                    <div class="bor-result">
-                        <div class="bor-decision">
-                            <small style="font-size: 11px; text-transform: uppercase;">WasteLab Đề Xuất:</small>
-                            <strong id="borDecision">Ưu tiên tái chế</strong>
-                        </div>
-                        <p id="borReason" style="font-size: 13px; color: #56665e; line-height: 1.6;">
-                            Nhóm rác này có khả năng thu hồi vật liệu tương đối cao. Đề xuất ưu tiên phân loại và đưa vật liệu tới đơn vị tái chế thay vì đốt ngay.
-                        </p>
-                        <div class="bor-metrics">
-                            <div class="bor-metric"><small>Thu hồi vật liệu</small><strong id="borMaterialScore">82/100</strong></div>
-                            <div class="bor-metric"><small>Tiềm năng điện</small><strong id="borEnergyScore">61/100</strong></div>
-                            <div class="bor-metric"><small>Ưu tiên môi trường</small><strong id="borEnvironmentScore">87/100</strong></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- =================== TRANG ĐÁNH GIÁ =================== -->
-        <section id="result" class="page">
-            <div class="top">
-                <div>
-                    <h1>Đánh Giá Kết Quả Nghiên Cứu</h1>
-                    <p>Tổng kết phát hiện chính và định hướng tiếp theo của đề tài</p>
-                </div>
-            </div>
-
-            <div class="card" style="line-height: 1.6; font-size: 13.5px;">
-                <div style="background: #eff9f3; border-left: 4px solid #2da66b; padding: 14px; border-radius: 8px; margin-bottom: 12px;">
-                    <b style="color: #125737;">Phát hiện chính:</b><br>
-                    Nhiệt độ buồng hóa nhiệt tác động trực tiếp nhất đến hiệu điện thế Seebeck. Vùng nhiệt 270–300°C duy trì hiệu suất cao và ổn định.
-                </div>
-                <div style="background: #fff8e8; border-left: 4px solid #d79b29; padding: 14px; border-radius: 8px; margin-bottom: 12px;">
-                    <b style="color: #876214;">Hạn chế của mô hình học sinh:</b><br>
-                    Quy mô buồng mẫu nhỏ (500g), cần lắp thêm cảm biến nồng độ khí thải CO₂ và bụi mịn để kiểm soát triệt để.
-                </div>
-                <div style="background: #eef6f9; border-left: 4px solid #2488a6; padding: 14px; border-radius: 8px;">
-                    <b style="color: #175466;">Đề xuất mở rộng:</b><br>
-                    Tăng số lượng mẫu đo trên 30 mẫu, thử nghiệm hệ thống tản nhiệt nước mặt lạnh để tăng chênh lệch nhiệt độ ΔT.
-                </div>
-            </div>
-        </section>
-
     </main>
 </div>
 
-<!-- TOAST THÔNG BÁO -->
+<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
+<!-- JAVASCRIPT LOGIC ĐẶC TẢ 2.0 -->
 <script>
-    // DỮ LIỆU BỘ SƯU TẬP ẢNH MÔI TRƯỜNG & HỆ THÍ NGHIỆM
-    let environmentImages = [
-        {
-            id: '1',
-            title: 'Hệ thí nghiệm WasteLab thực tế',
-            category: 'apparatus',
-            categoryLabel: 'Hệ thí nghiệm',
-            src: 'https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=800&q=80',
-            caption: 'Mô hình buồng phản ứng nhiệt hóa Seebeck vi mô tích hợp cảm biến nhiệt độ và đồng hồ đo điện áp.',
-            tags: ['Hệ thí nghiệm', 'Seebeck', 'Cảm biến số']
-        },
-        {
-            id: '2',
-            title: 'Hướng tới phát triển bền vững',
-            category: 'nature',
-            categoryLabel: 'Thiên nhiên & Bền vững',
-            src: 'https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=800&q=80',
-            caption: 'Chuyển hóa chất thải thành năng lượng sạch góp phần giảm chôn lấp và bảo vệ lá phổi xanh.',
-            tags: ['Môi trường xanh', 'SDGs', 'Năng lượng sạch']
-        },
-        {
-            id: '3',
-            title: 'Thực trạng ô nhiễm rác thải & đại dương',
-            category: 'pollution',
-            categoryLabel: 'Thực trạng ô nhiễm',
-            src: 'https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?auto=format&fit=crop&w=800&q=80',
-            caption: 'Rác thải nhựa và phế phẩm tràn lan đe dọa sinh thái biển, thôi thúc các giải pháp xử lý cấp bách.',
-            tags: ['Rác thải nhựa', 'Báo động ô nhiễm', 'Đại dương']
-        },
-        {
-            id: '4',
-            title: 'Phân loại rác tại nguồn & Kinh tế tuần hoàn',
-            category: 'recycling',
-            categoryLabel: 'Phân loại & Tuần hoàn',
-            src: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=800&q=80',
-            caption: 'Phân loại rác thông minh tại đô thị: ưu tiên tái sinh vật liệu, phần còn lại mới xử lý nhiệt.',
-            tags: ['Kinh tế tuần hoàn', 'Tái chế', 'Phân loại tại nguồn']
+    // Dữ liệu 28 vật liệu ban đầu
+    const MATERIALS = [
+        { id: 'pet_clean', name: 'Chai nhựa PET sạch', cat: 'plastic', catLabel: 'Nhựa', group: 'recycle', groupLabel: 'TÁI CHẾ VẬT LIỆU', q: 22, synonyms: ['chai pet', 'chai nuoc', 'chai nhua', 'pet'], instructions: ['Tráng sạch nước ngọt', 'Tháo nắp và vòng cổ chai', 'Ấn bẹp thân chai'] },
+        { id: 'pet_dirty', name: 'Chai nhựa PET dính dầu mỡ', cat: 'plastic', catLabel: 'Nhựa', group: 'residual', groupLabel: 'RÁC CÒN LẠI', q: 20, synonyms: ['chai dau an', 'chai nhot'], instructions: ['Đóng chặt nắp chai', 'Bỏ vào túi rác sinh hoạt còn lại'] },
+        { id: 'hdpe', name: 'Can / Chai nhựa HDPE', cat: 'plastic', catLabel: 'Nhựa', group: 'recycle', groupLabel: 'TÁI CHẾ VẬT LIỆU', q: 40, synonyms: ['chai dau goi', 'can nuoc giat', 'hdpe'], instructions: ['Dùng hết xà phòng', 'Tráng sạch bọt', 'Gom chung với nhựa giá trị cao'] },
+        { id: 'carton', name: 'Bìa carton / Thùng giấy', cat: 'paper', catLabel: 'Giấy', group: 'recycle', groupLabel: 'TÁI CHẾ VẬT LIỆU', q: 16, synonyms: ['thung carton', 'bia carton', 'hop giay', 'carton'], instructions: ['Gỡ bỏ băng dính dán', 'Gấp phẳng thùng', 'Giữ khô ráo tuyệt đối'] },
+        { id: 'paper_white', name: 'Giấy A4 / Sách vở học sinh', cat: 'paper', catLabel: 'Giấy', group: 'recycle', groupLabel: 'TÁI CHẾ VẬT LIỆU', q: 14, synonyms: ['giay a4', 'vo cu', 'sach cu', 'giay in'], instructions: ['Tháo ghim sắt', 'Buộc dây phẳng cọc', 'Sách tốt nên quyên góp dùng lại'] },
+        { id: 'tetra_pak', name: 'Vỏ hộp sữa nhiều lớp (Tetra Pak)', cat: 'paper', catLabel: 'Giấy nhiều lớp', group: 'recycle', groupLabel: 'TÁI CHẾ VẬT LIỆU', q: 15, synonyms: ['hop sua', 'vo hop sua', 'tetra pak', 'milo'], instructions: ['Bóc 4 tai hộp sữa', 'Ấn bẹp phẳng', 'Tráng sạch bên trong'] },
+        { id: 'alu_can', name: 'Lon nhôm đồ uống', cat: 'metal', catLabel: 'Kim loại', group: 'recycle', groupLabel: 'TÁI CHẾ VẬT LIỆU', q: 0, synonyms: ['lon bia', 'lon nuoc ngot', 'lon nhom'], instructions: ['Dốc kiệt nước ngọt', 'Giữ khoen bật trên lon', 'Bẹp dẹp lon'] },
+        { id: 'battery', name: 'Pin đã qua sử dụng (AA, AAA)', cat: 'battery', catLabel: 'Pin & Điện tử', group: 'special', groupLabel: 'THU GOM RIÊNG (NGUY HẠI)', q: 0, isHazard: true, synonyms: ['pin', 'pin con tho', 'pin aa', 'pin remote'], instructions: ['Dán băng dính 2 đầu cực', 'Để hộp nhựa khô ráo', 'Mang đến điểm thu gom pin chuyên dụng'] },
+        { id: 'food_organic', name: 'Thực phẩm thừa / Rác nhà bếp', cat: 'organic', catLabel: 'Hữu cơ', group: 'organic', groupLabel: 'HỮU CƠ (Ủ PHÂN)', q: 4, synonyms: ['rau cu', 'thuc pham', 'vo hoa qua', 'ba ca phe'], instructions: ['Gạn kiệt nước thừa', 'Ủ phân compost bón cây', 'Không để lẫn túi nilon'] }
+    ];
+
+    // Điểm thu gom thực tế tại Hà Nội
+    const HUBS = [
+        { id: 'hub_gl', name: 'Trạm Đổi Rác Green Life (Tây Hồ)', address: 'Ngõ 89 Lạc Long Quân, Tây Hồ / Cầu Giấy', phone: '0981 234 567', materials: ['pet_clean', 'carton', 'paper_white', 'alu_can', 'tetra_pak', 'battery'], conditions: 'Rác sạch khô, phân loại riêng theo túi. Không nhận đồ dính dầu mỡ.', verifiedDate: '2026-10-02' },
+        { id: 'hub_pin', name: 'Thùng Thu Gom Pin UBND Phường Thụy Khuê', address: '157 Thụy Khuê, Q. Tây Hồ', phone: '024 3847 1234', materials: ['battery'], conditions: 'Pin cúc áo, pin AA/AAA. Bỏ trực tiếp vào thùng đỏ tại sảnh tiếp dân.', verifiedDate: '2026-09-28' },
+        { id: 'hub_tetra', name: 'Thùng Thu Hồi Hộp Sữa Tetra Pak (WinMart Xuân La)', address: 'Tòa Kosmo Tây Hồ, Xuân La', phone: '024 7108 8899', materials: ['tetra_pak'], conditions: 'Hộp sữa đã bóc 4 tai, ấn dẹp và tráng sạch ruột.', verifiedDate: '2026-09-15' }
+    ];
+
+    let currentMode = 'real';
+    let batches = [
+        { id: 'LO-2026-001', name: 'Chai PET sạch (5 kg) - 08/10', materialId: 'pet_clean', qty: 5, remaining: 1, unit: 'kg', mode: 'demo' }
+    ];
+    let handovers = [
+        { id: 'BG-2026-001', batchId: 'LO-2026-001', hubName: 'Green Life Tây Hồ', offered: 5, accepted: 4, rejected: 1, reason: '1 kg dính dầu mỡ', level: 'verified', mode: 'demo' }
+    ];
+
+    // Chuyển chế độ dữ liệu thật vs minh họa
+    function switchDataMode(mode) {
+        currentMode = mode;
+        document.getElementById('btnModeReal').classList.toggle('active', mode === 'real');
+        document.getElementById('btnModeDemo').classList.toggle('active', mode === 'demo');
+        const badge = document.getElementById('modeBadge');
+        badge.className = 'mode-badge ' + mode;
+        badge.innerText = mode === 'real' ? 'THẬT' : 'MINH HỌA';
+        document.getElementById('demoWarning').style.display = mode === 'demo' ? 'flex' : 'none';
+        updateStats();
+        renderBatches();
+        renderHandovers();
+        showToast('Đã chuyển sang chế độ: ' + (mode === 'real' ? 'Dữ liệu thật' : 'Dữ liệu minh họa'));
+    }
+
+    // Điều hướng trang
+    function showPage(pageId, btn) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        if (btn) {
+            document.querySelectorAll('.menu button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
         }
-    ];
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-    // DỮ LIỆU ĐO LƯỜNG THỰC NGHIỆM
-    let data = [
-        ["01", "Rác hữu cơ", 250, 500, 2.31, 0.35, "71.2%"],
-        ["02", "Rác hữu cơ", 260, 500, 2.45, 0.37, "73.8%"],
-        ["03", "Giấy", 270, 500, 2.61, 0.39, "76.1%"],
-        ["04", "Rác hỗn hợp", 280, 500, 2.80, 0.42, "79.4%"],
-        ["05", "Rác hỗn hợp", 290, 500, 2.93, 0.45, "81.3%"],
-        ["06", "Nhựa", 300, 500, 3.01, 0.46, "82.0%"],
-        ["07", "Giấy", 280, 450, 2.76, 0.41, "78.8%"],
-        ["08", "Rác hữu cơ", 275, 550, 2.68, 0.40, "77.5%"]
-    ];
+    // Tính 3 thẻ thống kê (Page 3)
+    function updateStats() {
+        const curHandovers = handovers.filter(h => h.mode === currentMode);
+        const curBatches = batches.filter(b => b.mode === currentMode);
 
-    // HIỂN THỊ THƯ VIỆN ẢNH MÔI TRƯỜNG
-    function renderGallery(filterCategory = 'all') {
-        let container = document.getElementById("environmentGallery");
-        container.innerHTML = "";
+        const deliveredKg = curHandovers.reduce((acc, h) => acc + h.accepted, 0);
+        const verifiedKg = curHandovers.filter(h => h.level === 'verified').reduce((acc, h) => acc + h.accepted, 0);
+        const pendingKg = curBatches.reduce((acc, b) => acc + b.remaining, 0);
 
-        let filtered = environmentImages.filter(item => {
-            if (filterCategory === 'all') return true;
-            return item.category === filterCategory;
+        document.getElementById('statDelivered').innerText = deliveredKg.toFixed(1) + ' kg';
+        document.getElementById('statVerified').innerText = verifiedKg.toFixed(1) + ' kg';
+        document.getElementById('statPending').innerText = pendingKg.toFixed(1) + ' kg';
+        document.getElementById('batchBadge').innerText = curBatches.filter(b => b.remaining > 0).length;
+    }
+
+    // Tra cứu vật liệu
+    function renderMaterialGrid() {
+        const query = document.getElementById('classifySearchInput').value.toLowerCase().trim();
+        const container = document.getElementById('materialGrid');
+        container.innerHTML = '';
+
+        const list = MATERIALS.filter(m => {
+            if (!query) return true;
+            return m.name.toLowerCase().includes(query) || m.synonyms.some(s => s.includes(query));
         });
 
-        filtered.forEach(item => {
-            let card = document.createElement("div");
-            card.className = "gallery-card";
+        if (list.length === 0) {
+            container.innerHTML = '<div style="grid-column: 1/-1; padding: 30px; text-align: center; color: var(--wl-muted);">Chưa tìm thấy vật liệu này trong danh mục.</div>';
+            return;
+        }
+
+        list.forEach(m => {
+            const card = document.createElement('div');
+            card.className = 'material-card';
             card.innerHTML = `
-                <div class="gallery-card-img-wrap">
-                    <img src="${item.src}" alt="${item.title}" onerror="this.src='https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=800&q=80'">
-                    <div class="gallery-badge">${item.categoryLabel}</div>
-                </div>
-                <div class="gallery-card-caption">
-                    <div>
-                        <strong>${item.title}</strong>
-                        <p>${item.caption}</p>
-                    </div>
-                    <div class="gallery-tags">
-                        ${item.tags.map(t => `<span>#${t}</span>`).join('')}
-                    </div>
-                </div>
+                <span class="material-card-tag">${m.catLabel}</span>
+                <h4>${m.name}</h4>
+                <p>${m.instructions[0]}</p>
+                <div style="margin-top: 8px; font-size: 11px; font-weight: 700; color: #176b4d;">Chọn phân loại →</div>
             `;
+            card.onclick = () => selectMaterial(m);
             container.appendChild(card);
         });
     }
 
-    // LỌC ẢNH THEO CHUYÊN ĐỀ
-    function filterGallery(category, btn) {
-        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        renderGallery(category);
+    // Chọn vật liệu và mở form tình trạng (Page 4 & 5)
+    function selectMaterial(m) {
+        const area = document.getElementById('materialDetailArea');
+        area.style.display = 'block';
+
+        const matchingHub = HUBS.find(h => h.materials.includes(m.id));
+
+        area.innerHTML = `
+            <div class="card" style="border: 2px solid #52e19d;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                    <div>
+                        <span class="material-card-tag">${m.catLabel}</span>
+                        <h2 style="font-size: 18px; color: var(--wl-deep);">${m.name}</h2>
+                    </div>
+                    <button class="btn btn-outline" onclick="document.getElementById('materialDetailArea').style.display='none'">Đóng</button>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-group-banner ${m.isHazard ? 'special' : m.group === 'recycle' ? 'recycle' : 'residual'}">
+                        <small style="font-size: 11px; font-weight: 800; text-transform: uppercase;">HƯỚNG XỬ LÝ ĐỀ XUẤT:</small>
+                        <strong>${m.groupLabel}</strong>
+                    </div>
+
+                    <div style="font-size: 13px; margin-bottom: 14px;">
+                        <b>Các bước chuẩn bị:</b>
+                        <ul style="padding-left: 20px; margin-top: 6px; line-height: 1.6;">
+                            ${m.instructions.map(i => `<li>${i}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div style="padding: 12px; background: #f8faf9; border-radius: 10px; font-size: 12px; margin-bottom: 14px;">
+                        <b>Trạng thái nơi nhận: </b>
+                        ${matchingHub ? `<span style="color: #176b4d; font-weight: 700;">Đã có nơi nhận phù hợp: ${matchingHub.name} (Xác nhận: ${matchingHub.verifiedDate})</span>` : '<span style="color: #b45309; font-weight: 700;">Chưa tìm thấy nơi nhận phù hợp trong danh sách tại khu vực. Giữ riêng vật liệu, không đổi sang đốt.</span>'}
+                    </div>
+
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn btn-primary" onclick="saveToBatch('${m.id}', '${m.name}')">+ Lưu vào lô vật liệu</button>
+                        <button class="btn btn-outline" onclick="showPage('pageHubs')">Xem danh sách điểm thu gom</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        window.scrollTo({ top: area.offsetTop - 40, behavior: 'smooth' });
     }
 
-    // THÊM ẢNH MỚI BẰNG PROMPT
-    function promptAddImage() {
-        let title = prompt("Nhập tiêu đề ảnh môi trường mới:", "Khu vực thu gom rác tái chế");
-        if (!title) return;
+    // Lưu vào lô
+    function saveToBatch(matId, matName) {
+        const id = 'LO-2026-00' + (batches.length + 1);
+        batches.unshift({
+            id: id,
+            name: `${matName} (5 kg) - ${new Date().toLocaleDateString('vi-VN')}`,
+            materialId: matId,
+            qty: 5,
+            remaining: 5,
+            unit: 'kg',
+            mode: currentMode
+        });
+        updateStats();
+        renderBatches();
+        showToast('Đã lưu 1 lô; Xem nhật ký (' + id + ')');
+        showPage('pageBatches');
+    }
 
-        let src = prompt("Nhập đường dẫn URL ảnh (hoặc ảnh online Unsplash):", "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=800&q=80");
-        if (!src) return;
+    // Hiển thị danh sách Lô
+    function renderBatches() {
+        const container = document.getElementById('batchesContainer');
+        container.innerHTML = '';
+        const cur = batches.filter(b => b.mode === currentMode);
 
-        let caption = prompt("Nhập mô tả bối cảnh môi trường:", "Hình ảnh khảo sát thực địa mô hình phân loại rác bảo vệ môi trường.");
-        
-        environmentImages.unshift({
-            id: String(Date.now()),
-            title: title,
-            category: 'nature',
-            categoryLabel: 'Ảnh bổ sung',
-            src: src,
-            caption: caption || 'Tư liệu môi trường phục vụ nghiên cứu WasteLab.',
-            tags: ['Thực địa', 'Môi trường']
+        if (cur.length === 0) {
+            container.innerHTML = '<p style="font-size: 13px; color: var(--wl-muted);">Chưa có lô nào trong kho.</p>';
+            return;
+        }
+
+        cur.forEach(b => {
+            const div = document.createElement('div');
+            div.style.cssText = 'padding: 14px; border: 1px solid var(--wl-border); border-radius: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;';
+            div.innerHTML = `
+                <div>
+                    <span style="font-family: monospace; font-size: 11px; font-weight: 700; color: #176b4d;">${b.id}</span>
+                    <b style="display: block; font-size: 13.5px; margin-top: 2px;">${b.name}</b>
+                    <span style="font-size: 12px; color: var(--wl-muted);">Ban đầu: ${b.qty} kg · Còn lại chưa giao: <b style="color: #b45309;">${b.remaining} kg</b></span>
+                </div>
+                ${b.remaining > 0 ? `<button class="btn btn-primary" style="padding: 6px 12px; font-size: 12px;" onclick="promptHandover('${b.id}')">Ghi bàn giao</button>` : '<span style="font-size: 11px; color: #64748b; font-weight: 700;">Đã giao hết</span>'}
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    // Ghi bàn giao thực tế: Xử lý đúng bài toán 5kg -> 4kg nhận / 1kg từ chối (Page 8)
+    function promptHandover(batchId) {
+        const batch = batches.find(b => b.id === batchId);
+        if (!batch) return;
+
+        const offered = Number(prompt(`Nhập lượng cân trình giao tại điểm (kg):`, batch.remaining)) || batch.remaining;
+        const accepted = Number(prompt(`Lượng nơi nhận ĐỒNG Ý TIẾP NHẬN (kg):`, offered > 1 ? offered - 1 : offered)) || offered;
+        const rejected = Math.max(0, offered - accepted);
+        let reason = '';
+        if (rejected > 0) {
+            reason = prompt('Nhập lý do nơi nhận từ chối phần còn lại:', 'Dính dầu mỡ không đạt tiêu chuẩn') || 'Không đạt độ sạch';
+        }
+
+        // Cập nhật lô
+        batch.remaining = Math.max(0, batch.remaining - accepted);
+
+        // Lưu sự kiện
+        const eventId = 'BG-2026-00' + (handovers.length + 1);
+        handovers.unshift({
+            id: eventId,
+            batchId: batch.id,
+            hubName: 'Green Life Tây Hồ',
+            offered: offered,
+            accepted: accepted,
+            rejected: rejected,
+            reason: reason,
+            level: 'verified',
+            mode: currentMode
         });
 
-        renderGallery('all');
-        showToast("Đã thêm ảnh môi trường mới vào mục Tổng quan!");
+        updateStats();
+        renderBatches();
+        renderHandovers();
+        showToast(`Đã ghi bàn giao: Nhận ${accepted} kg; Còn lại ${batch.remaining} kg.`);
     }
 
-    // CHUYỂN TRANG
-    function showPage(pageId, button) {
-        document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-        document.getElementById(pageId).classList.add("active");
+    // Hiển thị nhật ký bàn giao
+    function renderHandovers() {
+        const tbody = document.getElementById('handoversTableBody');
+        tbody.innerHTML = '';
+        const cur = handovers.filter(h => h.mode === currentMode);
 
-        document.querySelectorAll(".menu button").forEach(b => b.classList.remove("active"));
-        button.classList.add("active");
-    }
+        if (cur.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--wl-muted); padding: 20px;">Chưa có lần bàn giao nào.</td></tr>';
+            return;
+        }
 
-    // HIỂN THỊ DỮ LIỆU BẢNG
-    function renderData() {
-        let tbody = document.getElementById("dataTable");
-        tbody.innerHTML = "";
-        data.forEach(row => {
-            let tr = document.createElement("tr");
+        cur.forEach(h => {
+            const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td><b>${row[0]}</b></td>
-                <td>${row[1]}</td>
-                <td>${row[2]}°C</td>
-                <td>${row[3]}g</td>
-                <td>${row[4]}V</td>
-                <td>${row[5]}A</td>
-                <td><span class="pill">${row[6]}</span></td>
+                <td style="font-family: monospace; font-weight: 700;">${h.id}</td>
+                <td><b>${h.batchId}</b><br><small style="color: var(--wl-muted);">${h.hubName}</small></td>
+                <td>${h.offered} kg</td>
+                <td style="color: #176b4d; font-weight: 700;">+${h.accepted} kg</td>
+                <td style="color: #b91c1c;">${h.rejected > 0 ? `-${h.rejected} kg (${h.reason})` : '0 kg'}</td>
+                <td><span style="background: #e8f7ee; color: #176b4d; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px;">Xác nhận nơi nhận</span></td>
             `;
             tbody.appendChild(tr);
         });
     }
 
-    // LƯU MẪU THÍ NGHIỆM MỚI
-    function saveExperiment() {
-        let temp = Number(document.getElementById("temperature").value);
-        let mass = Number(document.getElementById("mass").value);
-        let voltage = Number(document.getElementById("voltage").value);
-        let current = Number(document.getElementById("current").value);
-        let type = document.getElementById("wasteType").value;
-
-        let eff = Math.min(95, Math.max(40, Math.round((voltage * current * 100 / 3.2) * 10) / 10));
-        let nextId = String(data.length + 1).padStart(2, "0");
-
-        data.push([nextId, type, temp, mass, voltage, current, eff + "%"]);
-        renderData();
-
-        document.getElementById("sampleCount").innerText = data.length;
-        document.getElementById("optimalTemp").innerText = temp + "°C";
-        showToast("Đã lưu mẫu thí nghiệm #" + nextId);
+    // Hiển thị danh sách điểm thu gom
+    function renderHubs() {
+        const container = document.getElementById('hubsList');
+        container.innerHTML = '';
+        HUBS.forEach(hub => {
+            const div = document.createElement('div');
+            div.className = 'card';
+            div.style.marginBottom = '0';
+            div.innerHTML = `
+                <span class="material-card-tag" style="background: #e0f2fe; color: #0369a1;">Hà Nội</span>
+                <h3 style="font-size: 15px; margin: 4px 0;">${hub.name}</h3>
+                <p style="font-size: 12px; color: var(--wl-muted); margin-bottom: 8px;">📍 ${hub.address}</p>
+                <div style="font-size: 12px; background: #f8faf9; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+                    <b>Điều kiện nhận: </b>${hub.conditions}
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <a href="tel:${hub.phone}" class="btn btn-primary" style="padding: 6px 12px; font-size: 11px; text-decoration: none;">📞 Gọi: ${hub.phone}</a>
+                    <span style="font-size: 11px; color: #176b4d; font-weight: 700;">✓ Đã xác minh (${hub.verifiedDate})</span>
+                </div>
+            `;
+            container.appendChild(div);
+        });
     }
 
-    // CHẠY AI PHÂN TÍCH
-    function runAI() {
-        let bar = document.getElementById("confidenceBar");
-        let num = document.getElementById("confidenceNumber");
-        bar.style.width = "0%";
-        num.innerText = "0%";
-
-        let target = 92;
-        let cur = 0;
-        let timer = setInterval(() => {
-            cur += 2;
-            bar.style.width = cur + "%";
-            num.innerText = cur + "%";
-            if (cur >= target) clearInterval(timer);
-        }, 20);
-    }
-
-    // THUẬT TOÁN BURN OR RECYCLE
-    function analyzeBurnOrRecycle() {
-        let type = document.getElementById("borType").value;
-        let moisture = Number(document.getElementById("borMoisture").value);
-        let recycle = Number(document.getElementById("borRecycle").value);
-        let contamination = Number(document.getElementById("borContamination").value);
-
-        let typeEnergy = { paper: 72, plastic: 90, organic: 38, textile: 68, mixed: 55 };
-        let typeMaterial = { paper: 88, plastic: 82, organic: 35, textile: 60, mixed: 45 };
-
-        let energyScore = Math.max(0, Math.min(100, Math.round(typeEnergy[type] - moisture * 0.55 - contamination * 0.15)));
-        let materialScore = Math.max(0, Math.min(100, Math.round(recycle * 0.75 + typeMaterial[type] * 0.25 - contamination * 0.25)));
-        let envScore = Math.max(0, Math.min(100, Math.round(100 - energyScore * 0.25 + materialScore * 0.25 - contamination * 0.15)));
-
-        let decision = "Phân loại / tiền xử lý trước";
-        let reason = "Cần phân loại loại bỏ tạp chất và giảm độ ẩm trước khi quyết định dòng xử lý.";
-
-        if (materialScore >= 65 && contamination <= 35) {
-            decision = "Ưu tiên tái chế vật liệu";
-            reason = "Nhóm rác này có khả năng thu hồi vật liệu cao. Đề xuất ưu tiên phân loại và chuyển đến đơn vị tái chế thay vì đốt ngay.";
-        } else if (energyScore >= 65 && materialScore < 65) {
-            decision = "Ưu tiên thu hồi năng lượng";
-            reason = "Khả năng tái chế hạn chế trong khi tiềm năng nhiệt trị cao. Đưa vào hệ thống thu hồi năng lượng giúp giảm bãi chôn lấp.";
-        }
-
-        document.getElementById("borDecision").innerText = decision;
-        document.getElementById("borReason").innerText = reason;
-        document.getElementById("borMaterialScore").innerText = materialScore + "/100";
-        document.getElementById("borEnergyScore").innerText = energyScore + "/100";
-        document.getElementById("borEnvironmentScore").innerText = envScore + "/100";
-
-        showToast("Đã phân tích phương án tối ưu!");
-    }
-
-    // XUẤT CSV
+    // Xuất CSV chuẩn UTF-8 (Page 10)
     function exportCSV() {
-        let csv = "ID,Loai rac,Nhiet do,Khoi luong,Dien ap,Dong dien,Hieu suat\n";
-        data.forEach(r => csv += r.join(",") + "\n");
-        let blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-        let a = document.createElement("a");
+        let csv = "\uFEFFMã sự kiện,Mã lô,Điểm nhận,Trình giao (kg),Được nhận (kg),Từ chối (kg),Lý do,Cấp xác nhận\n";
+        handovers.filter(h => h.mode === currentMode).forEach(h => {
+            csv += `"${h.id}","${h.batchId}","${h.hubName}",${h.offered},${h.accepted},${h.rejected},"${h.reason}","Xác nhận nơi nhận"\n`;
+        });
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = "wastelab-data.csv";
+        a.download = `wastelab-nhat-ky-${currentMode}.csv`;
         a.click();
-        showToast("Đã tải xuống tệp wastelab-data.csv");
+        showToast('Đã xuất tệp CSV');
     }
 
-    // TOAST THÔNG BÁO
+    // Tìm kiếm nhanh từ Trang chủ
+    function handleQuickSearch() {
+        const val = document.getElementById('quickSearchInput').value;
+        goToClassifyTab(val);
+    }
+
+    function goToClassifyTab(query) {
+        showPage('pageClassify');
+        document.getElementById('classifySearchInput').value = query;
+        renderMaterialGrid();
+    }
+
     function showToast(msg) {
-        let t = document.getElementById("toast");
+        const t = document.getElementById('toast');
         t.innerText = msg;
-        t.style.display = "block";
-        setTimeout(() => t.style.display = "none", 2500);
+        t.style.display = 'block';
+        setTimeout(() => t.style.display = 'none', 2600);
     }
 
-    // KHỞI CHẠY LẦN ĐẦU
-    renderGallery();
-    renderData();
+    // Khởi tạo ban đầu
+    renderMaterialGrid();
+    renderHubs();
+    renderBatches();
+    renderHandovers();
+    updateStats();
 </script>
-
 </body>
 </html>
