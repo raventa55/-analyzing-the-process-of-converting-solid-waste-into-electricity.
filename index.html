@@ -3,20 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>WasteLab AI</title>
-
+    <title>WasteLab AI - Giám Sát Rác Thải & Môi Trường</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        :root {
+            --wl-deep: #0b2f24;
+            --wl-green: #176b4d;
+            --wl-mint: #dff4e9;
+            --wl-bg: #f5f8f6;
+            --wl-card: #ffffff;
+            --wl-text: #17342a;
+            --wl-muted: #71827a;
+            --wl-border: #e2ebe6;
+            --wl-shadow: 0 8px 30px rgba(14, 55, 40, .06);
+            --wl-radius: 16px;
         }
 
         body {
-            background: #f4f7f5;
-            color: #18352a;
+            background: linear-gradient(180deg, #f8fbf9 0%, #f3f7f5 100%);
+            color: var(--wl-text);
         }
 
         .app {
@@ -24,25 +35,29 @@
             min-height: 100vh;
         }
 
-
+        /* SIDEBAR */
         .sidebar {
-            width: 240px;
-            background: #103d2b;
+            width: 250px;
+            background: linear-gradient(180deg, #09291f 0%, #0d3b2b 100%);
             color: white;
-            padding: 25px 18px;
+            padding: 24px 16px;
             position: fixed;
             top: 0;
             bottom: 0;
+            border-right: 1px solid rgba(255,255,255,.06);
+            box-shadow: 8px 0 35px rgba(5, 35, 25, .12);
+            z-index: 10;
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 40px;
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            letter-spacing: -0.5px;
         }
 
         .logo span {
-            color: #65d69b;
+            color: #55db97;
         }
 
         .menu button {
@@ -51,134 +66,305 @@
             background: transparent;
             color: #cfe8db;
             text-align: left;
-            padding: 14px;
+            padding: 12px 14px;
             border-radius: 10px;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13.5px;
+            font-weight: 500;
+            transition: all 0.2s ease;
         }
 
-        .menu button:hover,
-        .menu button.active {
-            background: #1d5a40;
+        .menu button:hover {
+            background: rgba(255,255,255,.08);
             color: white;
+            transform: translateX(3px);
+        }
+
+        .menu button.active {
+            background: rgba(84, 190, 132, .22);
+            border-left: 3px solid #55db97;
+            color: white;
+            font-weight: 700;
         }
 
         .side-info {
             position: absolute;
-            bottom: 25px;
-            left: 20px;
-            right: 20px;
-            padding: 12px;
-            border: 1px solid #39745a;
-            border-radius: 10px;
-            font-size: 12px;
+            bottom: 20px;
+            left: 16px;
+            right: 16px;
+            padding: 14px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            font-size: 11.5px;
             color: #bfe0ce;
+            line-height: 1.5;
         }
 
-
+        /* MAIN CONTENT */
         .main {
-            margin-left: 240px;
-            width: calc(100% - 240px);
-            padding: 30px;
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 30px 36px;
+            max-width: 1300px;
         }
 
         .page {
             display: none;
+            animation: fadeIn .3s ease;
         }
 
         .page.active {
             display: block;
         }
 
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 22px;
         }
 
         .top h1 {
-            font-size: 28px;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--wl-deep);
+            letter-spacing: -0.5px;
         }
 
         .top p {
-            color: #718179;
-            margin-top: 6px;
-            font-size: 14px;
+            color: var(--wl-muted);
+            margin-top: 4px;
+            font-size: 13.5px;
         }
 
         .status {
             background: #e3f5eb;
-            color: #18734b;
-            padding: 9px 14px;
+            color: #16734b;
+            padding: 7px 14px;
             border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
+            font-size: 11.5px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            border: 1px solid #c9ebd8;
         }
 
-
+        /* HERO BANNER */
         .hero {
-            background: linear-gradient(120deg, #103d2b, #24704f);
+            background: linear-gradient(115deg, #093324, #195d40);
             color: white;
-            padding: 28px;
-            border-radius: 18px;
-            margin-bottom: 20px;
+            padding: 30px;
+            border-radius: var(--wl-radius);
+            margin-bottom: 24px;
+            box-shadow: 0 12px 30px rgba(10, 48, 34, 0.12);
+            position: relative;
+            overflow: hidden;
         }
 
         .hero h2 {
-            font-size: 26px;
-            margin-bottom: 10px;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
         }
 
         .hero p {
-            color: #d5ebdf;
-            max-width: 700px;
+            color: #d6ede1;
+            max-width: 760px;
             line-height: 1.6;
+            font-size: 14px;
         }
 
+        /* SECTION MÔI TRƯỜNG & HỆ THÍ NGHIỆM */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 28px 0 16px;
+        }
 
+        .section-header h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--wl-deep);
+        }
+
+        .gallery-filter {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .filter-btn {
+            border: 1px solid #d8e4dd;
+            background: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            color: #4b6356;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #103d2b;
+            color: white;
+            border-color: #103d2b;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .gallery-card {
+            background: white;
+            border-radius: var(--wl-radius);
+            border: 1px solid var(--wl-border);
+            overflow: hidden;
+            box-shadow: var(--wl-shadow);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(14, 55, 40, .12);
+        }
+
+        .gallery-card-img-wrap {
+            position: relative;
+            height: 230px;
+            background: #092017;
+            overflow: hidden;
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.03);
+        }
+
+        .gallery-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(4px);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .gallery-card-caption {
+            padding: 16px 18px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .gallery-card-caption strong {
+            display: block;
+            font-size: 15px;
+            color: #113426;
+            margin-bottom: 6px;
+        }
+
+        .gallery-card-caption p {
+            font-size: 13px;
+            color: #65756d;
+            line-height: 1.55;
+            margin-bottom: 12px;
+        }
+
+        .gallery-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            font-size: 11px;
+            color: #176b4d;
+        }
+
+        .gallery-tags span {
+            background: #eef7f2;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        /* MODAL THÊM ẢNH */
+        .btn-add-img {
+            background: #176b4d;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .btn-add-img:hover {
+            background: #0f4f37;
+        }
+
+        /* CARDS & METRICS */
         .card {
             background: white;
-            border: 1px solid #e2ebe5;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 20px rgba(20, 60, 40, 0.05);
+            border: 1px solid var(--wl-border);
+            border-radius: var(--wl-radius);
+            padding: 22px;
+            margin-bottom: 22px;
+            box-shadow: var(--wl-shadow);
         }
 
         .card h2 {
-            font-size: 17px;
-            margin-bottom: 18px;
+            font-size: 16.5px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--wl-deep);
         }
-
 
         .flow {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
+            gap: 10px;
             margin-bottom: 20px;
         }
 
         .flow-item {
-            background: #eef3f0;
-            padding: 15px 8px;
+            background: #f3f7f5;
+            padding: 14px 10px;
             text-align: center;
             border-radius: 10px;
             font-size: 12px;
-        }
-
-        .flow-item.active {
-            background: #e1f5ea;
-            color: #18734b;
+            border: 1px solid #e5eee8;
         }
 
         .flow-item strong {
             display: block;
-            font-size: 14px;
-            margin-bottom: 6px;
+            font-size: 15px;
+            color: #176b4d;
+            margin-bottom: 4px;
+            font-family: monospace;
         }
-
 
         .metrics {
             display: grid;
@@ -188,26 +374,30 @@
 
         .metric {
             background: #f7faf8;
-            padding: 18px;
+            padding: 16px;
             border-radius: 12px;
+            border: 1px solid #e6f0ea;
         }
 
         .metric small {
             color: #718179;
+            font-size: 12px;
         }
 
         .metric strong {
             display: block;
-            font-size: 25px;
-            margin-top: 6px;
+            font-size: 26px;
+            margin-top: 5px;
+            color: #113829;
+            font-family: monospace;
         }
 
+        /* FORMS & TABLES */
         .grid {
             display: grid;
             grid-template-columns: 1.3fr 0.7fr;
             gap: 20px;
         }
-
 
         .form {
             display: grid;
@@ -218,64 +408,47 @@
         .field label {
             display: block;
             font-size: 12px;
-            color: #718179;
-            margin-bottom: 6px;
+            font-weight: 600;
+            color: #4b6156;
+            margin-bottom: 5px;
         }
 
-        .field input,
-        .field select {
+        .field input, .field select {
             width: 100%;
-            padding: 11px;
+            padding: 10px 12px;
             border: 1px solid #dbe5df;
             border-radius: 8px;
             outline: none;
+            font-size: 13.5px;
+            background: #fcfdfc;
         }
 
-        .field input:focus,
-        .field select:focus {
+        .field input:focus, .field select:focus {
             border-color: #218052;
+            box-shadow: 0 0 0 3px rgba(33, 128, 82, 0.1);
         }
 
-        .full {
-            grid-column: 1 / -1;
-        }
-
+        .full { grid-column: 1 / -1; }
 
         .btn {
             border: none;
             background: #16764c;
             color: white;
             padding: 12px 18px;
-            border-radius: 9px;
-            font-weight: bold;
+            border-radius: 8px;
+            font-weight: 700;
             cursor: pointer;
+            font-size: 13px;
+            transition: .2s;
         }
 
-        .btn:hover {
-            background: #105f3c;
-        }
+        .btn:hover { background: #105f3c; }
 
         .btn.secondary {
             background: #e9f4ee;
             color: #16764c;
+            border: 1px solid #cce5d7;
         }
-
-
-        .experiment-icon {
-            text-align: center;
-            font-size: 60px;
-            padding: 25px;
-        }
-
-        .sensor {
-            text-align: center;
-            background: #eff8f3;
-            padding: 10px;
-            border-radius: 10px;
-            color: #16764c;
-            font-size: 13px;
-        }
-
 
         table {
             width: 100%;
@@ -283,176 +456,134 @@
             font-size: 13px;
         }
 
-        th,
-        td {
+        th, td {
             text-align: left;
-            padding: 12px;
+            padding: 11px 12px;
             border-bottom: 1px solid #edf1ee;
         }
 
         th {
-            color: #718179;
+            background: #f4f8f5;
+            color: #51635a;
+            font-weight: 700;
+            font-size: 12px;
         }
 
         .pill {
             background: #e2f5eb;
             color: #167247;
-            padding: 5px 9px;
-            border-radius: 15px;
+            padding: 3px 8px;
+            border-radius: 12px;
             font-size: 11px;
+            font-weight: 700;
+            font-family: monospace;
         }
 
-
-        .factor {
-            margin-bottom: 18px;
+        /* BURN OR RECYCLE */
+        .bor-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
         }
 
-        .factor-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 13px;
-            margin-bottom: 6px;
+        .bor-form {
+            background: #f7faf8;
+            border-radius: 12px;
+            padding: 18px;
+            border: 1px solid #e5eee8;
         }
 
-        .bar {
-            height: 9px;
-            background: #edf1ef;
-            border-radius: 10px;
-            overflow: hidden;
+        .bor-form label {
+            display: block;
+            font-size: 12.5px;
+            font-weight: 700;
+            margin: 12px 0 5px;
+            color: #18352a;
         }
 
-        .bar-fill {
-            height: 100%;
-            background: #35a86e;
-            border-radius: 10px;
-        }
-
-        .ai-box {
-            background: #eff9f3;
-            border-left: 4px solid #2da66b;
-            padding: 15px;
+        .bor-form select, .bor-form input {
+            width: 100%;
+            border: 1px solid #d8e3dd;
             border-radius: 8px;
-            line-height: 1.6;
-            font-size: 13px;
-        }
-
-        .confidence {
-            text-align: center;
-            padding: 15px;
-        }
-
-        .circle {
-            width: 110px;
-            height: 110px;
-            margin: auto;
-            border-radius: 50%;
-            background: conic-gradient(
-                #2ca66d 0% 82%,
-                #e8efeb 82% 100%
-            );
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .circle-inner {
-            width: 82px;
-            height: 82px;
+            padding: 9px 11px;
             background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 23px;
-            font-weight: bold;
-        }
-
-
-        .result {
-            background: #eff9f3;
-            border-left: 4px solid #2da66b;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 12px;
             font-size: 13px;
-            line-height: 1.6;
         }
 
-        .warning {
-            background: #fff8e8;
-            border-left-color: #d79b29;
+        .bor-button {
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 15px;
+            background: #103d2b;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
         }
 
+        .bor-result {
+            border: 1px solid #e2ebe5;
+            border-radius: 12px;
+            padding: 18px;
+            background: white;
+        }
 
+        .bor-decision {
+            border-radius: 10px;
+            padding: 14px;
+            background: #eef7f1;
+            margin-bottom: 14px;
+        }
+
+        .bor-decision strong {
+            display: block;
+            font-size: 22px;
+            margin-top: 4px;
+            color: #17623e;
+        }
+
+        .bor-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .bor-metric {
+            background: #f7faf8;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #e9f0eb;
+        }
+
+        .bor-metric small { font-size: 11px; color: #718179; display: block; }
+        .bor-metric strong { font-size: 16px; font-family: monospace; }
+
+        /* TOAST */
         .toast {
             position: fixed;
             bottom: 25px;
             right: 25px;
             background: #103d2b;
             color: white;
-            padding: 13px 18px;
+            padding: 12px 20px;
             border-radius: 10px;
+            font-size: 13px;
             display: none;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            z-index: 100;
         }
-
 
         @media(max-width: 850px) {
-
-            .sidebar {
-                width: 70px;
-                padding: 20px 8px;
-            }
-
-            .logo {
-                font-size: 0;
-            }
-
-            .logo span {
-                font-size: 20px;
-            }
-
-            .menu button {
-                font-size: 0;
-                text-align: center;
-            }
-
-            .main {
-                margin-left: 70px;
-                width: calc(100% - 70px);
-                padding: 18px;
-            }
-
-            .grid {
-                grid-template-columns: 1fr;
-            }
-
-            .flow {
-                grid-template-columns: 1fr;
-            }
-
-            .metrics {
-                grid-template-columns: 1fr;
-            }
-
-            .form {
-                grid-template-columns: 1fr;
-            }
+            .sidebar { width: 70px; padding: 20px 8px; }
+            .logo { font-size: 0; }
+            .logo span { font-size: 20px; }
+            .menu button { font-size: 0; text-align: center; }
+            .main { margin-left: 70px; width: calc(100% - 70px); padding: 18px; }
+            .gallery-grid, .grid, .bor-grid, .flow, .metrics { grid-template-columns: 1fr; }
         }
-    .confidence-bar {
-    width: 100%;
-    height: 12px;
-    background: #e5e7eb;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.confidence-fill {
-    width: 0%;
-    height: 100%;
-    background: #22c55e;
-    border-radius: 10px;
-    transition: width 0.1s linear;
-}
     </style>
 </head>
 
@@ -460,1015 +591,563 @@
 
 <div class="app">
 
-
+    <!-- SIDEBAR -->
     <aside class="sidebar">
-
-        <div class="logo">
-            Waste<span>Lab</span> AI
-        </div>
-
+        <div class="logo">Waste<span>Lab</span> AI</div>
         <div class="menu">
-
-            <button class="active"
-                onclick="showPage('dashboard', this)">
-                ◉ &nbsp; Tổng quan
-            </button>
-
-            <button onclick="showPage('experiment', this)">
-                ⚗ &nbsp; Hệ thí nghiệm
-            </button>
-
-            <button onclick="showPage('data', this)">
-                ▦ &nbsp; Dữ liệu
-            </button>
-
-            <button onclick="showPage('ai', this)">
-                ✦ &nbsp; AI phân tích
-            </button>
-
-            <button onclick="showPage('result', this)">
-                ✓ &nbsp; Đánh giá
-            </button>
-
+            <button class="active" onclick="showPage('dashboard', this)">◉ &nbsp; Tổng quan</button>
+            <button onclick="showPage('experiment', this)">⚗ &nbsp; Hệ thí nghiệm</button>
+            <button onclick="showPage('data', this)">▦ &nbsp; Dữ liệu đo lường</button>
+            <button onclick="showPage('ai', this)">✦ &nbsp; AI phân tích</button>
+            <button onclick="showPage('decision', this)">♻ &nbsp; Burn or Recycle?</button>
+            <button onclick="showPage('result', this)">✓ &nbsp; Đánh giá kết quả</button>
         </div>
-
         <div class="side-info">
-            Prototype nghiên cứu học sinh
-            <br><br>
+            Prototype nghiên cứu học sinh<br>
             <b>Waste → Energy</b>
         </div>
-
     </aside>
 
-
+    <!-- MAIN CONTENT -->
     <main class="main">
 
-
+        <!-- =================== TRANG TỔNG QUAN =================== -->
         <section id="dashboard" class="page active">
-
             <div class="top">
-
                 <div>
-                    <h1>WasteLab AI</h1>
-
-                    <p>
-                        Hệ thống xử lý và phân tích dữ liệu rác thải
-                    </p>
+                    <h1>WasteLab AI Dashboard</h1>
+                    <p>Hệ thống xử lý và phân tích dữ liệu rác thải nhiệt điện & bối cảnh môi trường</p>
                 </div>
-
-                <div class="status">
-                    ● SYSTEM ONLINE
-                </div>
-
+                <div class="status">● SYSTEM ONLINE</div>
             </div>
-
 
             <div class="hero">
-
-                <h2>
-                    Từ rác thải → năng lượng → dữ liệu → AI
-                </h2>
-
-                <p>
-                    Website prototype mô phỏng quá trình thu thập
-                    dữ liệu từ hệ thí nghiệm, phân tích bằng AI
-                    và đánh giá hiệu quả xử lý rác thải.
-
-                </p>
-
+                <h2>From Waste to Value</h2>
+                <p>Website prototype mô phỏng quá trình thu thập dữ liệu từ hệ thí nghiệm Seebeck vi mô, ứng dụng AI đánh giá tương quan thông số và định hướng bảo vệ môi trường, thúc đẩy mô hình kinh tế tuần hoàn.</p>
             </div>
 
-
-            <div class="card">
-
-                <h2>
-                    Quy trình nghiên cứu
-                </h2>
-
-                <div class="flow">
-
-                    <div class="flow-item active">
-                        <strong>01</strong>
-                        Hệ thí nghiệm
-                    </div>
-
-                    <div class="flow-item active">
-                        <strong>02</strong>
-                        Thu thập dữ liệu
-                    </div>
-
-                    <div class="flow-item active">
-                        <strong>03</strong>
-                        Website
-                    </div>
-
-                    <div class="flow-item active">
-                        <strong>04</strong>
-                        AI phân tích
-                    </div>
-
-                    <div class="flow-item active">
-                        <strong>05</strong>
-                        Đánh giá
-                    </div>
-
+            <!-- MỤC ẢNH MÔI TRƯỜNG & HỆ THÍ NGHIỆM -->
+            <div class="section-header">
+                <div>
+                    <h2>Hình Ảnh Môi Trường & Bối Cảnh Nghiên Cứu</h2>
+                    <p style="font-size: 13px; color: #718179; margin-top: 3px;">Tư liệu trực quan về hệ thí nghiệm thực tế và các động lực môi trường cấp bách</p>
                 </div>
+                <button class="btn-add-img" onclick="promptAddImage()">+ Thêm ảnh môi trường</button>
+            </div>
 
+            <div class="gallery-filter">
+                <button class="filter-btn active" onclick="filterGallery('all', this)">Tất cả ảnh</button>
+                <button class="filter-btn" onclick="filterGallery('apparatus', this)">Hệ thí nghiệm</button>
+                <button class="filter-btn" onclick="filterGallery('nature', this)">Thiên nhiên & Bền vững</button>
+                <button class="filter-btn" onclick="filterGallery('pollution', this)">Thực trạng ô nhiễm</button>
+                <button class="filter-btn" onclick="filterGallery('recycling', this)">Phân loại & Tuần hoàn</button>
+            </div>
+
+            <div class="gallery-grid" id="environmentGallery">
+                <!-- Danh sách ảnh môi trường sẽ được nạp động từ JavaScript bên dưới -->
+            </div>
+
+            <!-- QUY TRÌNH & THỐNG KÊ -->
+            <div class="card">
+                <h2>Quy Trình Nghiên Cứu WasteLab</h2>
+                <div class="flow">
+                    <div class="flow-item"><strong>01</strong>Hệ thí nghiệm</div>
+                    <div class="flow-item"><strong>02</strong>Thu thập dữ liệu</div>
+                    <div class="flow-item"><strong>03</strong>Website số hóa</div>
+                    <div class="flow-item"><strong>04</strong>AI phân tích</div>
+                    <div class="flow-item"><strong>05</strong>Đánh giá & Ứng dụng</div>
+                </div>
 
                 <div class="metrics">
-
                     <div class="metric">
-
-                        <small>
-                            Mẫu thí nghiệm
-                        </small>
-
-                        <strong id="sampleCount">
-                            12
-                        </strong>
-
+                        <small>Mẫu thí nghiệm đã ghi</small>
+                        <strong id="sampleCount">8</strong>
                     </div>
-
-
                     <div class="metric">
-
-                        <small>
-                            Hiệu suất trung bình
-                        </small>
-
-                        <strong id="averageEfficiency">
-                            78.4%
-                        </strong>
-
+                        <small>Hiệu suất trung bình</small>
+                        <strong id="averageEfficiency">78.7%</strong>
                     </div>
-
-
                     <div class="metric">
-
-                        <small>
-                            Nhiệt độ tối ưu
-                        </small>
-
-                        <strong id="optimalTemp">
-                            285°C
-                        </strong>
-
+                        <small>Nhiệt độ tối ưu ước tính</small>
+                        <strong id="optimalTemp">285°C</strong>
                     </div>
-
                 </div>
-
             </div>
-
         </section>
 
-
-
+        <!-- =================== TRANG HỆ THÍ NGHIỆM =================== -->
         <section id="experiment" class="page">
-
             <div class="top">
-
                 <div>
-
-                    <h1>
-                        Hệ thí nghiệm
-                    </h1>
-
-                    <p>
-                        Nhập thông số từ hệ thống đo thực tế.
-                    </p>
-
+                    <h1>Hệ Thí Nghiệm & Cảm Biến</h1>
+                    <p>Nhập thông số thực tế từ cảm biến nhiệt độ và đồng hồ đo điện áp</p>
                 </div>
-
             </div>
-
 
             <div class="grid">
-
-
                 <div class="card">
-
-                    <h2>
-                        Thông số thí nghiệm
-                    </h2>
-
-
+                    <h2>Thông Số Thí Nghiệm</h2>
                     <div class="form">
-
-
                         <div class="field">
-
-                            <label>
-                                Nhiệt độ (°C)
-                            </label>
-
-                            <input
-                                id="temperature"
-                                type="number"
-                                value="280"
-                            >
-
+                            <label>Nhiệt độ (°C)</label>
+                            <input id="temperature" type="number" value="280">
                         </div>
-
-
                         <div class="field">
-
-                            <label>
-                                Khối lượng rác (g)
-                            </label>
-
-                            <input
-                                id="mass"
-                                type="number"
-                                value="500"
-                            >
-
+                            <label>Khối lượng rác (g)</label>
+                            <input id="mass" type="number" value="500">
                         </div>
-
-
                         <div class="field">
-
-                            <label>
-                                Điện áp (V)
-                            </label>
-
-                            <input
-                                id="voltage"
-                                type="number"
-                                step="0.01"
-                                value="2.8"
-                            >
-
+                            <label>Điện áp Seebeck (V)</label>
+                            <input id="voltage" type="number" step="0.01" value="2.80">
                         </div>
-
-
                         <div class="field">
-
-                            <label>
-                                Dòng điện (A)
-                            </label>
-
-                            <input
-                                id="current"
-                                type="number"
-                                step="0.01"
-                                value="0.42"
-                            >
-
+                            <label>Dòng điện (A)</label>
+                            <input id="current" type="number" step="0.01" value="0.42">
                         </div>
-
-
                         <div class="field">
-
-                            <label>
-                                Thời gian (phút)
-                            </label>
-
-                            <input
-                                id="time"
-                                type="number"
-                                value="30"
-                            >
-
+                            <label>Thời gian (phút)</label>
+                            <input id="time" type="number" value="30">
                         </div>
-
-
                         <div class="field">
-
-                            <label>
-                                Loại rác
-                            </label>
-
+                            <label>Loại rác thực nghiệm</label>
                             <select id="wasteType">
-
-                                <option>
-                                    Rác hữu cơ
-                                </option>
-
-                                <option>
-                                    Nhựa
-                                </option>
-
-                                <option>
-                                    Giấy
-                                </option>
-
-                                <option>
-                                    Rác hỗn hợp
-                                </option>
-
+                                <option>Rác hữu cơ</option>
+                                <option>Nhựa</option>
+                                <option>Giấy</option>
+                                <option>Rác hỗn hợp</option>
                             </select>
-
                         </div>
-
-
-                        <button
-                            class="btn full"
-                            onclick="saveExperiment()">
-
-                            + Lưu mẫu thí nghiệm
-
-                        </button>
-
+                        <button class="btn full" onclick="saveExperiment()">+ Lưu Mẫu Thí Nghiệm Vào Dữ Liệu</button>
                     </div>
-
                 </div>
 
-
-                <div class="card">
-
-                    <h2>
-                        Hệ thống mô phỏng
-                    </h2>
-
-                    <div class="experiment-icon">
-                        ♨️ → ⚡
+                <div class="card" style="text-align: center;">
+                    <h2>Trạng Thái Cảm Biến</h2>
+                    <div style="font-size: 50px; padding: 25px 0;">♨️ ➔ ⚡</div>
+                    <div style="background: #eff8f3; padding: 12px; border-radius: 8px; color: #16764c; font-weight: bold; font-size: 13px;">
+                        ● Cảm biến đang sẵn sàng
                     </div>
-
-                    <div class="sensor">
-
-                        ● Sensor đang sẵn sàng
-
-                    </div>
-
-                    <p style="text-align:center;margin-top:15px;color:#718179;font-size:13px">
-
-                        Dữ liệu từ cảm biến có thể được
-                        nhập trực tiếp vào hệ thống.
-
+                    <p style="margin-top: 15px; color: #718179; font-size: 12.5px; line-height: 1.5;">
+                        Điện áp sinh ra từ chênh lệch nhiệt độ bề mặt nóng và bộ tản nhiệt lạnh.
                     </p>
-
                 </div>
-
             </div>
-
         </section>
 
-
-
+        <!-- =================== TRANG DỮ LIỆU =================== -->
         <section id="data" class="page">
-
             <div class="top">
-
                 <div>
-
-                    <h1>
-                        Thu thập dữ liệu
-                    </h1>
-
-                    <p>
-                        Dữ liệu từ các lần thí nghiệm.
-                    </p>
-
+                    <h1>Bảng Dữ Liệu Thí Nghiệm</h1>
+                    <p>Tổng hợp các mẫu đo lường phục vụ đối chiếu và lập báo cáo</p>
                 </div>
-
-                <button
-                    class="btn secondary"
-                    onclick="exportCSV()">
-
-                    ↓ Xuất CSV
-
-                </button>
-
+                <button class="btn secondary" onclick="exportCSV()">↓ Xuất Tệp CSV</button>
             </div>
 
-
             <div class="card">
-
                 <table>
-
                     <thead>
-
                         <tr>
-
-                            <th>ID</th>
+                            <th>Mã ID</th>
                             <th>Loại rác</th>
                             <th>Nhiệt độ</th>
                             <th>Khối lượng</th>
-                            <th>Điện áp</th>
-                            <th>Dòng điện</th>
-                            <th>Hiệu suất</th>
-
+                            <th>Điện áp (U)</th>
+                            <th>Dòng điện (I)</th>
+                            <th>Hiệu suất (η)</th>
                         </tr>
-
                     </thead>
-
-
-                    <tbody id="dataTable">
-
-                    </tbody>
-
+                    <tbody id="dataTable"></tbody>
                 </table>
-
             </div>
-
         </section>
 
-
-
+        <!-- =================== TRANG AI PHÂN TÍCH =================== -->
         <section id="ai" class="page">
-
             <div class="top">
-
                 <div>
-
-                    <h1>
-                        AI phân tích
-                    </h1>
-
-                    <p>
-                        Phân tích xu hướng từ dữ liệu thí nghiệm.
-                    </p>
-
+                    <h1>AI Phân Tích & Tương Quan</h1>
+                    <p>Phân tích mức độ ảnh hưởng của các yếu tố đến hiệu suất phát điện</p>
                 </div>
-
-
-                <button
-                    class="btn"
-                    onclick="runAI()">
-
-                    ✦ Chạy AI
-
-                </button>
-
+                <button class="btn" onclick="runAI()">✦ Chạy AI Phân Tích</button>
             </div>
-
 
             <div class="grid">
-
-
                 <div class="card">
-
-                    <h2>
-                        Mức độ ảnh hưởng
-                    </h2>
-
-
-                    <div class="factor">
-
-                        <div class="factor-header">
-
-                            <span>
-                                Nhiệt độ
-                            </span>
-
-                            <b>
-                                88%
-                            </b>
-
+                    <h2>Mức Độ Ảnh Hưởng Đến Hiệu Suất</h2>
+                    <div style="margin-bottom: 14px;">
+                        <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px;">
+                            <span>Nhiệt độ buồng hóa nhiệt</span><b>88%</b>
                         </div>
-
-                        <div class="bar">
-
-                            <div
-                                class="bar-fill"
-                                style="width:88%">
-                            </div>
-
+                        <div style="height: 8px; background: #edf2ef; border-radius: 4px; overflow: hidden;">
+                            <div style="width: 88%; height: 100%; background: #2ea66c;"></div>
                         </div>
-
                     </div>
 
-
-                    <div class="factor">
-
-                        <div class="factor-header">
-
-                            <span>
-                                Khối lượng rác
-                            </span>
-
-                            <b>
-                                64%
-                            </b>
-
+                    <div style="margin-bottom: 14px;">
+                        <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px;">
+                            <span>Khối lượng rác (g)</span><b>64%</b>
                         </div>
-
-                        <div class="bar">
-
-                            <div
-                                class="bar-fill"
-                                style="width:64%">
-                            </div>
-
+                        <div style="height: 8px; background: #edf2ef; border-radius: 4px; overflow: hidden;">
+                            <div style="width: 64%; height: 100%; background: #35b376;"></div>
                         </div>
-
                     </div>
 
-
-                    <div class="factor">
-
-                        <div class="factor-header">
-
-                            <span>
-                                Thời gian xử lý
-                            </span>
-
-                            <b>
-                                51%
-                            </b>
-
+                    <div style="margin-bottom: 14px;">
+                        <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px;">
+                            <span>Thời gian xử lý</span><b>51%</b>
                         </div>
-
-                        <div class="bar">
-
-                            <div
-                                class="bar-fill"
-                                style="width:51%">
-                            </div>
-
+                        <div style="height: 8px; background: #edf2ef; border-radius: 4px; overflow: hidden;">
+                            <div style="width: 51%; height: 100%; background: #45c084;"></div>
                         </div>
-
                     </div>
 
-
-                    <div class="factor">
-
-                        <div class="factor-header">
-
-                            <span>
-                                Loại rác
-                            </span>
-
-                            <b>
-                                43%
-                            </b>
-
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px;">
+                            <span>Loại rác đầu vào</span><b>43%</b>
                         </div>
-
-                        <div class="bar">
-
-                            <div
-                                class="bar-fill"
-                                style="width:43%">
-                            </div>
-
+                        <div style="height: 8px; background: #edf2ef; border-radius: 4px; overflow: hidden;">
+                            <div style="width: 43%; height: 100%; background: #56cf93;"></div>
                         </div>
-
                     </div>
-
                 </div>
 
-
-
-                <div class="card">
-
-                    <h2>
-                        Độ tin cậy
-                    </h2>
-
-
-                    <div class="confidence-bar">
-    <div id="confidenceBar" class="confidence-fill"></div>
-</div>
-
-<div id="confidenceNumber">0%</div>
-
-
-                    <div
-                        class="ai-box"
-                        id="aiResult">
-
-                        AI nhận thấy nhiệt độ là yếu tố
-                        có ảnh hưởng lớn nhất đến hiệu suất
-                        trong bộ dữ liệu hiện tại.
-
+                <div class="card" style="text-align: center;">
+                    <h2>Độ Tin Cậy Mô Hình</h2>
+                    <div style="font-size: 38px; font-weight: bold; font-family: monospace; color: #16764c; margin: 15px 0;" id="confidenceNumber">0%</div>
+                    <div style="height: 8px; background: #e5eee8; border-radius: 4px; overflow: hidden; margin-bottom: 15px;">
+                        <div id="confidenceBar" style="width: 0%; height: 100%; background: #22c55e; transition: width 0.05s;"></div>
                     </div>
-
+                    <div style="background: #eff9f3; border-left: 4px solid #2da66b; padding: 12px; border-radius: 6px; font-size: 12.5px; text-align: left; line-height: 1.5;">
+                        AI nhận định: Khoảng 270°C – 300°C duy trì hiệu suất ổn định nhất. Rác hữu cơ có độ ẩm cao nên được sấy sơ bộ trước khi nạp vào buồng đốt.
+                    </div>
                 </div>
-
             </div>
-
         </section>
 
-
-
-        <section id="result" class="page">
-
+        <!-- =================== TRANG BURN OR RECYCLE =================== -->
+        <section id="decision" class="page">
             <div class="top">
-
                 <div>
-
-                    <h1>
-                        Đánh giá kết quả
-                    </h1>
-
-                    <p>
-                        Tổng hợp kết quả nghiên cứu.
-                    </p>
-
+                    <h1>Burn or Recycle? — Hỗ Trợ Quyết Định</h1>
+                    <p>Tối ưu giữa thu hồi vật liệu (Tái chế) và thu hồi năng lượng (Nhiệt điện)</p>
                 </div>
-
+                <div class="status">● DECISION SUPPORT</div>
             </div>
 
+            <div class="card">
+                <div class="bor-grid">
+                    <div class="bor-form">
+                        <label>Loại rác</label>
+                        <select id="borType">
+                            <option value="paper">Giấy / Thùng carton</option>
+                            <option value="plastic">Nhựa phế phẩm</option>
+                            <option value="organic">Rác hữu cơ / Thực phẩm</option>
+                            <option value="textile">Vải / Dệt may</option>
+                            <option value="mixed">Rác sinh hoạt hỗn hợp</option>
+                        </select>
 
-            <div class="grid">
+                        <label>Khối lượng (kg)</label>
+                        <input id="borMass" type="number" value="10">
 
+                        <label>Độ ẩm ước tính (%)</label>
+                        <input id="borMoisture" type="number" value="20">
 
-                <div class="card">
+                        <label>Khả năng thu hồi vật liệu (%)</label>
+                        <input id="borRecycle" type="number" value="75">
 
-                    <h2>
-                        Kết luận sơ bộ
-                    </h2>
+                        <label>Mức độ lẫn tạp (%)</label>
+                        <input id="borContamination" type="number" value="15">
 
-
-                    <div class="result">
-
-                        <b>
-                            Phát hiện chính
-                        </b>
-
-                        <br>
-
-                        Nhiệt độ là yếu tố có ảnh hưởng
-                        lớn nhất trong bộ dữ liệu mô phỏng.
-                        Khoảng 270–300°C cho hiệu suất
-                        tương đối cao.
-
+                        <button class="bor-button" onclick="analyzeBurnOrRecycle()">Phân Tích Phương Án Tối Ưu</button>
                     </div>
 
-
-                    <div class="result warning">
-
-                        <b>
-                            Hạn chế
-                        </b>
-
-                        <br>
-
-                        Số lượng mẫu còn nhỏ.
-                        Điều kiện môi trường và cảm biến
-                        có thể tạo ra sai số.
-
+                    <div class="bor-result">
+                        <div class="bor-decision">
+                            <small style="font-size: 11px; text-transform: uppercase;">WasteLab Đề Xuất:</small>
+                            <strong id="borDecision">Ưu tiên tái chế</strong>
+                        </div>
+                        <p id="borReason" style="font-size: 13px; color: #56665e; line-height: 1.6;">
+                            Nhóm rác này có khả năng thu hồi vật liệu tương đối cao. Đề xuất ưu tiên phân loại và đưa vật liệu tới đơn vị tái chế thay vì đốt ngay.
+                        </p>
+                        <div class="bor-metrics">
+                            <div class="bor-metric"><small>Thu hồi vật liệu</small><strong id="borMaterialScore">82/100</strong></div>
+                            <div class="bor-metric"><small>Tiềm năng điện</small><strong id="borEnergyScore">61/100</strong></div>
+                            <div class="bor-metric"><small>Ưu tiên môi trường</small><strong id="borEnvironmentScore">87/100</strong></div>
+                        </div>
                     </div>
-
-
-                    <div class="result">
-
-                        <b>
-                            Đề xuất
-                        </b>
-
-                        <br>
-
-                        Tăng số lần đo, giữ khối lượng
-                        rác ổn định và thực hiện thí nghiệm
-                        ở nhiều mức nhiệt khác nhau.
-
-                    </div>
-
                 </div>
+            </div>
+        </section>
 
-
-
-                <div class="card">
-
-                    <h2>
-                        Trạng thái nghiên cứu
-                    </h2>
-
-                    <div class="result">
-
-                        ✓ Thu thập dữ liệu
-
-                    </div>
-
-                    <div class="result">
-
-                        ✓ Phân tích dữ liệu
-
-                    </div>
-
-                    <div class="result">
-
-                        ✓ Xác định yếu tố ảnh hưởng
-
-                    </div>
-
-                    <div class="result">
-
-                        ✓ Đánh giá kết quả
-
-                    </div>
-
+        <!-- =================== TRANG ĐÁNH GIÁ =================== -->
+        <section id="result" class="page">
+            <div class="top">
+                <div>
+                    <h1>Đánh Giá Kết Quả Nghiên Cứu</h1>
+                    <p>Tổng kết phát hiện chính và định hướng tiếp theo của đề tài</p>
                 </div>
-
             </div>
 
+            <div class="card" style="line-height: 1.6; font-size: 13.5px;">
+                <div style="background: #eff9f3; border-left: 4px solid #2da66b; padding: 14px; border-radius: 8px; margin-bottom: 12px;">
+                    <b style="color: #125737;">Phát hiện chính:</b><br>
+                    Nhiệt độ buồng hóa nhiệt tác động trực tiếp nhất đến hiệu điện thế Seebeck. Vùng nhiệt 270–300°C duy trì hiệu suất cao và ổn định.
+                </div>
+                <div style="background: #fff8e8; border-left: 4px solid #d79b29; padding: 14px; border-radius: 8px; margin-bottom: 12px;">
+                    <b style="color: #876214;">Hạn chế của mô hình học sinh:</b><br>
+                    Quy mô buồng mẫu nhỏ (500g), cần lắp thêm cảm biến nồng độ khí thải CO₂ và bụi mịn để kiểm soát triệt để.
+                </div>
+                <div style="background: #eef6f9; border-left: 4px solid #2488a6; padding: 14px; border-radius: 8px;">
+                    <b style="color: #175466;">Đề xuất mở rộng:</b><br>
+                    Tăng số lượng mẫu đo trên 30 mẫu, thử nghiệm hệ thống tản nhiệt nước mặt lạnh để tăng chênh lệch nhiệt độ ΔT.
+                </div>
+            </div>
         </section>
 
     </main>
-
 </div>
 
-
-<div
-    class="toast"
-    id="toast">
-
-</div>
-
-
+<!-- TOAST THÔNG BÁO -->
+<div class="toast" id="toast"></div>
 
 <script>
-
-
-    let data = [
-
-        ["01", "Rác hữu cơ", 250, 500, 2.31, 0.35, "71.2%"],
-
-        ["02", "Rác hữu cơ", 260, 500, 2.45, 0.37, "73.8%"],
-
-        ["03", "Giấy", 270, 500, 2.61, 0.39, "76.1%"],
-
-        ["04", "Rác hỗn hợp", 280, 500, 2.80, 0.42, "79.4%"],
-
-        ["05", "Rác hỗn hợp", 290, 500, 2.93, 0.45, "81.3%"],
-
-        ["06", "Nhựa", 300, 500, 3.01, 0.46, "82.0%"],
-
-        ["07", "Giấy", 280, 450, 2.76, 0.41, "78.8%"],
-
-        ["08", "Rác hữu cơ", 275, 550, 2.68, 0.40, "77.5%"]
-
+    // DỮ LIỆU BỘ SƯU TẬP ẢNH MÔI TRƯỜNG & HỆ THÍ NGHIỆM
+    let environmentImages = [
+        {
+            id: '1',
+            title: 'Hệ thí nghiệm WasteLab thực tế',
+            category: 'apparatus',
+            categoryLabel: 'Hệ thí nghiệm',
+            src: 'https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?auto=format&fit=crop&w=800&q=80',
+            caption: 'Mô hình buồng phản ứng nhiệt hóa Seebeck vi mô tích hợp cảm biến nhiệt độ và đồng hồ đo điện áp.',
+            tags: ['Hệ thí nghiệm', 'Seebeck', 'Cảm biến số']
+        },
+        {
+            id: '2',
+            title: 'Hướng tới phát triển bền vững',
+            category: 'nature',
+            categoryLabel: 'Thiên nhiên & Bền vững',
+            src: 'https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=800&q=80',
+            caption: 'Chuyển hóa chất thải thành năng lượng sạch góp phần giảm chôn lấp và bảo vệ lá phổi xanh.',
+            tags: ['Môi trường xanh', 'SDGs', 'Năng lượng sạch']
+        },
+        {
+            id: '3',
+            title: 'Thực trạng ô nhiễm rác thải & đại dương',
+            category: 'pollution',
+            categoryLabel: 'Thực trạng ô nhiễm',
+            src: 'https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?auto=format&fit=crop&w=800&q=80',
+            caption: 'Rác thải nhựa và phế phẩm tràn lan đe dọa sinh thái biển, thôi thúc các giải pháp xử lý cấp bách.',
+            tags: ['Rác thải nhựa', 'Báo động ô nhiễm', 'Đại dương']
+        },
+        {
+            id: '4',
+            title: 'Phân loại rác tại nguồn & Kinh tế tuần hoàn',
+            category: 'recycling',
+            categoryLabel: 'Phân loại & Tuần hoàn',
+            src: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=800&q=80',
+            caption: 'Phân loại rác thông minh tại đô thị: ưu tiên tái sinh vật liệu, phần còn lại mới xử lý nhiệt.',
+            tags: ['Kinh tế tuần hoàn', 'Tái chế', 'Phân loại tại nguồn']
+        }
     ];
 
+    // DỮ LIỆU ĐO LƯỜNG THỰC NGHIỆM
+    let data = [
+        ["01", "Rác hữu cơ", 250, 500, 2.31, 0.35, "71.2%"],
+        ["02", "Rác hữu cơ", 260, 500, 2.45, 0.37, "73.8%"],
+        ["03", "Giấy", 270, 500, 2.61, 0.39, "76.1%"],
+        ["04", "Rác hỗn hợp", 280, 500, 2.80, 0.42, "79.4%"],
+        ["05", "Rác hỗn hợp", 290, 500, 2.93, 0.45, "81.3%"],
+        ["06", "Nhựa", 300, 500, 3.01, 0.46, "82.0%"],
+        ["07", "Giấy", 280, 450, 2.76, 0.41, "78.8%"],
+        ["08", "Rác hữu cơ", 275, 550, 2.68, 0.40, "77.5%"]
+    ];
 
+    // HIỂN THỊ THƯ VIỆN ẢNH MÔI TRƯỜNG
+    function renderGallery(filterCategory = 'all') {
+        let container = document.getElementById("environmentGallery");
+        container.innerHTML = "";
 
-    function showPage(page, button) {
-
-        let pages =
-            document.querySelectorAll(".page");
-
-        pages.forEach(function(item) {
-
-            item.classList.remove("active");
-
+        let filtered = environmentImages.filter(item => {
+            if (filterCategory === 'all') return true;
+            return item.category === filterCategory;
         });
 
-
-        document
-            .getElementById(page)
-            .classList.add("active");
-
-
-        let buttons =
-            document.querySelectorAll(".menu button");
-
-        buttons.forEach(function(item) {
-
-            item.classList.remove("active");
-
-        });
-
-
-        button.classList.add("active");
-
-    }
-
-
-    function renderData() {
-
-        let table =
-            document.getElementById("dataTable");
-
-        table.innerHTML = "";
-
-
-        data.forEach(function(row) {
-
-            let tr =
-                document.createElement("tr");
-
-
-            tr.innerHTML = `
-
-                <td>${row[0]}</td>
-
-                <td>${row[1]}</td>
-
-                <td>${row[2]}°C</td>
-
-                <td>${row[3]}g</td>
-
-                <td>${row[4]}V</td>
-
-                <td>${row[5]}A</td>
-
-                <td>
-                    <span class="pill">
-                        ${row[6]}
-                    </span>
-                </td>
-
+        filtered.forEach(item => {
+            let card = document.createElement("div");
+            card.className = "gallery-card";
+            card.innerHTML = `
+                <div class="gallery-card-img-wrap">
+                    <img src="${item.src}" alt="${item.title}" onerror="this.src='https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=800&q=80'">
+                    <div class="gallery-badge">${item.categoryLabel}</div>
+                </div>
+                <div class="gallery-card-caption">
+                    <div>
+                        <strong>${item.title}</strong>
+                        <p>${item.caption}</p>
+                    </div>
+                    <div class="gallery-tags">
+                        ${item.tags.map(t => `<span>#${t}</span>`).join('')}
+                    </div>
+                </div>
             `;
-
-
-            table.appendChild(tr);
-
+            container.appendChild(card);
         });
-
     }
 
+    // LỌC ẢNH THEO CHUYÊN ĐỀ
+    function filterGallery(category, btn) {
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        renderGallery(category);
+    }
 
+    // THÊM ẢNH MỚI BẰNG PROMPT
+    function promptAddImage() {
+        let title = prompt("Nhập tiêu đề ảnh môi trường mới:", "Khu vực thu gom rác tái chế");
+        if (!title) return;
 
+        let src = prompt("Nhập đường dẫn URL ảnh (hoặc ảnh online Unsplash):", "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=800&q=80");
+        if (!src) return;
+
+        let caption = prompt("Nhập mô tả bối cảnh môi trường:", "Hình ảnh khảo sát thực địa mô hình phân loại rác bảo vệ môi trường.");
+        
+        environmentImages.unshift({
+            id: String(Date.now()),
+            title: title,
+            category: 'nature',
+            categoryLabel: 'Ảnh bổ sung',
+            src: src,
+            caption: caption || 'Tư liệu môi trường phục vụ nghiên cứu WasteLab.',
+            tags: ['Thực địa', 'Môi trường']
+        });
+
+        renderGallery('all');
+        showToast("Đã thêm ảnh môi trường mới vào mục Tổng quan!");
+    }
+
+    // CHUYỂN TRANG
+    function showPage(pageId, button) {
+        document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+        document.getElementById(pageId).classList.add("active");
+
+        document.querySelectorAll(".menu button").forEach(b => b.classList.remove("active"));
+        button.classList.add("active");
+    }
+
+    // HIỂN THỊ DỮ LIỆU BẢNG
+    function renderData() {
+        let tbody = document.getElementById("dataTable");
+        tbody.innerHTML = "";
+        data.forEach(row => {
+            let tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td><b>${row[0]}</b></td>
+                <td>${row[1]}</td>
+                <td>${row[2]}°C</td>
+                <td>${row[3]}g</td>
+                <td>${row[4]}V</td>
+                <td>${row[5]}A</td>
+                <td><span class="pill">${row[6]}</span></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // LƯU MẪU THÍ NGHIỆM MỚI
     function saveExperiment() {
+        let temp = Number(document.getElementById("temperature").value);
+        let mass = Number(document.getElementById("mass").value);
+        let voltage = Number(document.getElementById("voltage").value);
+        let current = Number(document.getElementById("current").value);
+        let type = document.getElementById("wasteType").value;
 
-        let temperature =
-            Number(
-                document.getElementById("temperature").value
-            );
+        let eff = Math.min(95, Math.max(40, Math.round((voltage * current * 100 / 3.2) * 10) / 10));
+        let nextId = String(data.length + 1).padStart(2, "0");
 
-
-        let mass =
-            Number(
-                document.getElementById("mass").value
-            );
-
-
-        let voltage =
-            Number(
-                document.getElementById("voltage").value
-            );
-
-
-        let current =
-            Number(
-                document.getElementById("current").value
-            );
-
-
-        let type =
-            document.getElementById("wasteType").value;
-
-
-        let efficiency =
-            Math.min(
-                95,
-                Math.max(
-                    40,
-                    Math.round(
-                        (voltage * current * 100 / 3.2) * 10
-                    ) / 10
-                )
-            );
-
-
-        let id =
-            String(data.length + 1)
-                .padStart(2, "0");
-
-
-        data.push([
-
-            id,
-
-            type,
-
-            temperature,
-
-            mass,
-
-            voltage,
-
-            current,
-
-            efficiency + "%"
-
-        ]);
-
-
+        data.push([nextId, type, temp, mass, voltage, current, eff + "%"]);
         renderData();
 
-
-        document
-            .getElementById("sampleCount")
-            .innerText = data.length;
-
-
-        document
-            .getElementById("averageEfficiency")
-            .innerText =
-            efficiency + "%";
-
-
-        document
-            .getElementById("optimalTemp")
-            .innerText =
-            temperature + "°C";
-
-
-        showToast(
-            "Đã lưu mẫu thí nghiệm #" + id
-        );
-
+        document.getElementById("sampleCount").innerText = data.length;
+        document.getElementById("optimalTemp").innerText = temp + "°C";
+        showToast("Đã lưu mẫu thí nghiệm #" + nextId);
     }
 
-
+    // CHẠY AI PHÂN TÍCH
     function runAI() {
-    let nhietDo = Number(document.getElementById("temperature").value);
+        let bar = document.getElementById("confidenceBar");
+        let num = document.getElementById("confidenceNumber");
+        bar.style.width = "0%";
+        num.innerText = "0%";
 
-    let doTinCay = 75;
-
-    if (nhietDo >= 270 && nhietDo <= 300) {
-        doTinCay = 92;
-    } else if (nhietDo >= 250 && nhietDo < 270) {
-        doTinCay = 84;
-    } else if (nhietDo > 300 && nhietDo <= 330) {
-        doTinCay = 87;
+        let target = 92;
+        let cur = 0;
+        let timer = setInterval(() => {
+            cur += 2;
+            bar.style.width = cur + "%";
+            num.innerText = cur + "%";
+            if (cur >= target) clearInterval(timer);
+        }, 20);
     }
 
-    let thanh = document.getElementById("confidenceBar");
-    let so = document.getElementById("confidenceNumber");
+    // THUẬT TOÁN BURN OR RECYCLE
+    function analyzeBurnOrRecycle() {
+        let type = document.getElementById("borType").value;
+        let moisture = Number(document.getElementById("borMoisture").value);
+        let recycle = Number(document.getElementById("borRecycle").value);
+        let contamination = Number(document.getElementById("borContamination").value);
 
-    thanh.style.width = "0%";
-    so.innerText = "0%";
+        let typeEnergy = { paper: 72, plastic: 90, organic: 38, textile: 68, mixed: 55 };
+        let typeMaterial = { paper: 88, plastic: 82, organic: 35, textile: 60, mixed: 45 };
 
-    let hienTai = 0;
+        let energyScore = Math.max(0, Math.min(100, Math.round(typeEnergy[type] - moisture * 0.55 - contamination * 0.15)));
+        let materialScore = Math.max(0, Math.min(100, Math.round(recycle * 0.75 + typeMaterial[type] * 0.25 - contamination * 0.25)));
+        let envScore = Math.max(0, Math.min(100, Math.round(100 - energyScore * 0.25 + materialScore * 0.25 - contamination * 0.15)));
 
-    let chay = setInterval(function () {
-        hienTai++;
+        let decision = "Phân loại / tiền xử lý trước";
+        let reason = "Cần phân loại loại bỏ tạp chất và giảm độ ẩm trước khi quyết định dòng xử lý.";
 
-        thanh.style.width = hienTai + "%";
-        so.innerText = hienTai + "%";
-
-        if (hienTai >= doTinCay) {
-            clearInterval(chay);
+        if (materialScore >= 65 && contamination <= 35) {
+            decision = "Ưu tiên tái chế vật liệu";
+            reason = "Nhóm rác này có khả năng thu hồi vật liệu cao. Đề xuất ưu tiên phân loại và chuyển đến đơn vị tái chế thay vì đốt ngay.";
+        } else if (energyScore >= 65 && materialScore < 65) {
+            decision = "Ưu tiên thu hồi năng lượng";
+            reason = "Khả năng tái chế hạn chế trong khi tiềm năng nhiệt trị cao. Đưa vào hệ thống thu hồi năng lượng giúp giảm bãi chôn lấp.";
         }
-    }, 20);
-}
 
+        document.getElementById("borDecision").innerText = decision;
+        document.getElementById("borReason").innerText = reason;
+        document.getElementById("borMaterialScore").innerText = materialScore + "/100";
+        document.getElementById("borEnergyScore").innerText = energyScore + "/100";
+        document.getElementById("borEnvironmentScore").innerText = envScore + "/100";
 
+        showToast("Đã phân tích phương án tối ưu!");
+    }
 
+    // XUẤT CSV
     function exportCSV() {
-
-        let csv =
-            "ID,Loai rac,Nhiet do,Khoi luong,Dien ap,Dong dien,Hieu suat\n";
-
-
-        data.forEach(function(row) {
-
-            csv +=
-                row.join(",") + "\n";
-
-        });
-
-
-        let file =
-            new Blob(
-                [csv],
-                {type: "text/csv"}
-            );
-
-
-        let link =
-            document.createElement("a");
-
-
-        link.href =
-            URL.createObjectURL(file);
-
-
-        link.download =
-            "wastelab-data.csv";
-
-
-        link.click();
-
-
-        showToast(
-            "Đã xuất dữ liệu CSV"
-        );
-
+        let csv = "ID,Loai rac,Nhiet do,Khoi luong,Dien ap,Dong dien,Hieu suat\n";
+        data.forEach(r => csv += r.join(",") + "\n");
+        let blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+        let a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "wastelab-data.csv";
+        a.click();
+        showToast("Đã tải xuống tệp wastelab-data.csv");
     }
 
-
-
-    function showToast(message) {
-
-        let toast =
-            document.getElementById("toast");
-
-
-        toast.innerText =
-            message;
-
-
-        toast.style.display =
-            "block";
-
-
-        setTimeout(function() {
-
-            toast.style.display =
-                "none";
-
-        }, 2500);
-
+    // TOAST THÔNG BÁO
+    function showToast(msg) {
+        let t = document.getElementById("toast");
+        t.innerText = msg;
+        t.style.display = "block";
+        setTimeout(() => t.style.display = "none", 2500);
     }
 
-
+    // KHỞI CHẠY LẦN ĐẦU
+    renderGallery();
     renderData();
-
 </script>
 
 </body>
